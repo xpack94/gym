@@ -8,12 +8,12 @@ public class Service {
   private  String recurrenceHebdo;
   private int capaciteMaximale;
   private long numeroDuProfessionnel;
-  private long codeDuService;
+  private int codeDuService;
 
 
 
 public  Service(String dateDebutService,String dateFinService,String heureDuService,String recurrenceHebdo,
-		  int capaciteMaximale,long numeroDuProfessionnel,long codeDuService){
+		  int capaciteMaximale,long numeroDuProfessionnel,int codeDuService){
 	  
 	  this.dateDebutService=dateDebutService;
 	  this.dateFinService=dateFinService;
@@ -98,13 +98,13 @@ public void setNumeroDuProfessionnel(long numeroDuProfessionnel) {
 
 
 
-public long getCodeDuService() {
+public int getCodeDuService() {
 	return codeDuService;
 }
 
 
 
-public void setCodeDuService(long codeDuService) {
+public void setCodeDuService(int codeDuService) {
 	this.codeDuService = codeDuService;
 }
 	

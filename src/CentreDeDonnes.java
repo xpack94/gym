@@ -1,7 +1,7 @@
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 
@@ -10,22 +10,24 @@ import java.util.concurrent.atomic.AtomicLong;
 public class CentreDeDonnes {
    
 	//un hashmap contenant tout les membres qui son inscrit 
-	public HashMap<Integer ,Membre> membres;
+	public HashMap<Long ,Membre> membres;
 	public HashMap<Integer ,Service> services;
+	public ArrayList<SeanceInscrit> inscrit;
 	
     private long id=0;
 	private int serviceId=1000000;
 	
-	public void CentreDeDonnes(){
-		membres=new HashMap<Integer, Membre>();
+	public  CentreDeDonnes(){
+		membres=new HashMap<Long, Membre>();
 		services=new HashMap<Integer, Service>();
+		inscrit=new ArrayList<SeanceInscrit>();
 	}
 	
-	public HashMap<Integer, Membre> getMembres() {
+	public HashMap<Long, Membre> getMembres() {
 		return membres;
 	}
 
-	public void setMembres(HashMap<Integer, Membre> membres) {
+	public void setMembres(HashMap<Long, Membre> membres) {
 		this.membres = membres;
 	}
 
