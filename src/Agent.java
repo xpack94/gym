@@ -133,25 +133,6 @@ public class Agent {
 			return false;
 		}
 		
-		public static void main(String [] Args){
-			
-			Agent a =new Agent(new CentreDeDonnes());
-			
-			//cree un memebre
-			a.creeMembre();
-			//cree un professionnel
-			a.creeMembre();
-			//verifier le membre 1
-			a.verificationMembre(1);
-			//le professionel donne une service
-			a.DonnerService(2);
-			//le professionnel consulte la seance
-			//a.consulterSeance(2);
-			
-			a.sinscrirAService(1);
-			//a.visite(1);
-			a.confirmationPresence(1000001, 1);
-			
-		}
+		
 		
 }
