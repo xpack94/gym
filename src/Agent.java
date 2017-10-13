@@ -136,7 +136,7 @@ public class Agent {
 		public static void main(String [] Args){
 			
 			Agent a =new Agent(new CentreDeDonnes());
-			//System.out.println( a.creeMembre());
+			
 			//cree un memebre
 			a.creeMembre();
 			//cree un professionnel
