@@ -1,7 +1,11 @@
+import java.util.HashMap;
+
 
 
 
 public class Service {
+  private Seance [] seances;
+  private String dateEtHeuresActuelles;
   private  String dateDebutService;
   private  String dateFinService;
   private  String heureDuService;
@@ -9,12 +13,62 @@ public class Service {
   private int capaciteMaximale;
   private long numeroDuProfessionnel;
   private int codeDuService;
+  private String commentaire;
+  //l'index sert a savoir a quelle case du array seances on insert une nouvelle seance
+  private int index=0;
+
+
+public Seance getSeances(int n) {
+	return seances[n];
+}
 
 
 
-public  Service(String dateDebutService,String dateFinService,String heureDuService,String recurrenceHebdo,
-		  int capaciteMaximale,long numeroDuProfessionnel,int codeDuService){
-	  
+public void setSeances(Seance seances) {
+	this.seances[this.index++]=seances;
+}
+
+
+
+public String getDateEtHeuresActuelles() {
+	return dateEtHeuresActuelles;
+}
+
+
+
+public void setDateEtHeuresActuelles(String dateEtHeuresActuelles) {
+	this.dateEtHeuresActuelles = dateEtHeuresActuelles;
+}
+
+
+
+public String getCommentaire() {
+	return commentaire;
+}
+
+
+
+public void setCommentaire(String commentaire) {
+	this.commentaire = commentaire;
+}
+
+
+
+public int getIndex() {
+	return index;
+}
+
+
+
+public void setIndex(int index) {
+	this.index = index;
+}
+
+
+
+public  Service(String dateEtHeuresActuelles,String dateDebutService,String dateFinService,String heureDuService,String recurrenceHebdo,
+		  int capaciteMaximale,long numeroDuProfessionnel,int codeDuService,String commentaire){
+	  this.dateEtHeuresActuelles=dateEtHeuresActuelles;
 	  this.dateDebutService=dateDebutService;
 	  this.dateFinService=dateFinService;
 	  this.heureDuService=heureDuService;
@@ -22,6 +76,8 @@ public  Service(String dateDebutService,String dateFinService,String heureDuServ
 	  this.capaciteMaximale=capaciteMaximale;
 	  this.numeroDuProfessionnel=numeroDuProfessionnel;
 	  this.codeDuService=codeDuService;
+	  this.commentaire=commentaire;
+	  this.seances=new Seance[30];
   }
 
 
