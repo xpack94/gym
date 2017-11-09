@@ -33,6 +33,32 @@ public class Logiciel {
 		    this.ctrDonne.membres.put( id, new MembreRegulier(id,nom,email,status));
 			return id;
 		}
+	//la methode qui permet de supprimer un membre du centre de donné
+	public void supprimerMembre(long numeroUnique){
+		this.ctrDonne.membres.remove(numeroUnique);
+	}
+	
+	
+	public void mettreAjourMembre(Membre m){
+	
+		System.out.println("1:mettre a jour l'email");
+		System.out.println("2:payer les frais mensuels");
+		Scanner sc=new Scanner(System.in);
+		String rep=sc.next();
+		if(rep.equals("1")){
+			System.out.println("entrer votre nouvelle adresse email");
+			String email=sc.next();
+			m.setEmail(email);
+			
+		}else{
+			//le membre choisi de payer les frais mensuels
+			if((((MembreRegulier)m).getEtat()).equals("suspendu")){
+				((MembreRegulier)m).setEtat("actif");
+			}
+		}
+		
+		}
+	
 		//la methode qui verifie si un memebre existe
 		protected boolean verificationMembre(long numeroUnique){
 			Membre m=this.ctrDonne.membres.get(numeroUnique);
@@ -80,9 +106,9 @@ public class Logiciel {
 		}
 		
 		//la methode qui permet au professionnel de consulter ses seance
-		protected Service consulterSeance(int codeDuService){
+		protected Seance [] consulterSeance(int codeDuService){
 			Service s=this.ctrDonne.services.get(codeDuService);
-			return s;
+			return s.getSeances();
 			
 		}
 		private void afficherToutLesServices(){

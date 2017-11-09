@@ -21,6 +21,9 @@ public class Service {
 public Seance getSeances(int n) {
 	return seances[n];
 }
+public Seance [] getSeances(){
+	return this.seances;
+}
 
 
 
