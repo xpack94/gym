@@ -1,11 +1,18 @@
+import java.util.ArrayList;
+
 
 public class Professionnel extends Membre{
 
-	private int []codeDesServiceDonnés;
+	private ArrayList<Integer> codeDesServiceDonnés;
 	private int nombreDeServiceDonné;
 	
+	public Professionnel (long numeroUnique, String nom, String email){
+		super(numeroUnique,nom,email);
+		this.codeDesServiceDonnés = new ArrayList<Integer>();
+		this.nombreDeServiceDonné=0;
+	}
 	
-	public Professionnel(long numeroUnique, String nom, int age, String email,int [] codesDesServiceDonnés,int nombreDeServiceDonné) {
+	public Professionnel(long numeroUnique, String nom, String email,ArrayList<Integer> codesDesServiceDonnés,int nombreDeServiceDonné) {
 		super(numeroUnique, nom, email);
 		this.codeDesServiceDonnés=codesDesServiceDonnés;
 		this.nombreDeServiceDonné=nombreDeServiceDonné;
@@ -13,6 +20,17 @@ public class Professionnel extends Membre{
 	}
 	
 	
+	public ArrayList<Integer> getCodeDesServiceDonnés() {
+		return codeDesServiceDonnés;
+	}
+
+	public void setCodeDesServiceDonnés(ArrayList<Integer> codeDesServiceDonnés) {
+		this.codeDesServiceDonnés = codeDesServiceDonnés;
+	}
+	public int getCodeDesServiceDonnés(int i) {
+		return codeDesServiceDonnés.get(i);
+	}
+
 	public int getNombreDeServiceDonné() {
 		return nombreDeServiceDonné;
 	}
@@ -21,7 +39,7 @@ public class Professionnel extends Membre{
 		this.nombreDeServiceDonné = nombreDeServiceDonné;
 	}
 
-
+  
 
 	
 	

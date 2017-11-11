@@ -15,7 +15,7 @@ public class Main {
 		Scanner sc =new Scanner(System.in);
 		switch (choix){
 		case 1:
-			System.out.println(" vous etes maintenant inscrit votre numero est: "+a.ajouterMembre());
+			System.out.println(" vous etes maintenant inscrit votre numero est: "+a.ajouterMembre("membreRegulier"));
 			break;
 		case 2:
 			System.out.println("veuillez entrer votre numero");
@@ -28,14 +28,19 @@ public class Main {
 			String reponse =sc.nextLine();
 			if((reponse.equals("Non")) ||( reponse.equals("n")) || (reponse.equals("non"))){
 			 //le membre n'est pas inscrit
-			 id=a.ajouterMembre();
+			 id=a.ajouterMembre("professionnel");
 			 System.out.println("vous etes maintenant inscrit votre numero est :"+id);
 			}else{
 				System.out.println("veuillez entrer votre numero");
 				id=sc.nextLong();
 			}
 			int codeS=a.DonnerService(id);
-			System.out.println("le service a ete cree avec le code "+codeS);
+			if(codeS==0){
+				System.out.println("le service n'a pas eté crée");
+			}else{
+				System.out.println("le service a ete cree avec le code "+codeS);
+			}
+			
 			
 			break;
 		case 4:
@@ -51,6 +56,13 @@ public class Main {
 			a.confirmationPresence(codeSeance, numeroUnique);
 			break;
 		case 6:
+			System.out.println("entrer votre numero ");
+			long numero=sc.nextLong();
+			a.supprimerMembre(numero);
+			System.out.println("le membre est supprimé");
+			break;
+			
+		case 7:
 			System.exit(0);
 			
 		}
@@ -79,15 +91,17 @@ public class Main {
 		System.out.println("2:s'inscrire a une séance");
 		System.out.println("3:donner service");
 		System.out.println("4:consulter inscription");
-		System.out.println("4:confirmer presence");
-		System.out.println("5:quitter");
+		System.out.println("5:confirmer presence");
+		System.out.println("6:supprimer membre");
+		System.out.println("7:quitter");
 		Scanner sc =new Scanner(System.in);
 		int choix=sc.nextInt();
 		m.choixPris(m,a, choix);
 	}
 	
 	public static void main(String[] args) {
-		
+		String l="15-8-1994";
+		System.out.println(l.substring(0,2));
 		Main m =new Main();
 		Logiciel a =new Logiciel(new CentreDeDonnes());
 		m.faireChoix(m, a);

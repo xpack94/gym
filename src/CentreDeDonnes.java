@@ -13,6 +13,7 @@ public class CentreDeDonnes {
 	public HashMap<Long ,Membre> membres;
 	public HashMap<Integer ,Service> services;
 	public ArrayList<SeanceInscrit> inscrit;
+	public HashMap<Long, Professionnel> professionnels;
 	
     private long id=0;
 	private int serviceId=1000000;
@@ -21,6 +22,7 @@ public class CentreDeDonnes {
 		membres=new HashMap<Long, Membre>();
 		services=new HashMap<Integer, Service>();
 		inscrit=new ArrayList<SeanceInscrit>();
+		professionnels=new HashMap<Long, Professionnel>();
 	}
 	
 	public HashMap<Long, Membre> getMembres() {

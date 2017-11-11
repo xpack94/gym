@@ -19,7 +19,7 @@ public class Service {
 
 
 public Seance getSeances(int n) {
-	return seances[n];
+	return this.seances[n];
 }
 public Seance [] getSeances(){
 	return this.seances;
