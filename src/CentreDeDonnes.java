@@ -12,7 +12,6 @@ public class CentreDeDonnes {
 	//un hashmap contenant tout les membres qui son inscrit 
 	public HashMap<Long ,Membre> membres;
 	public HashMap<Integer ,Service> services;
-	public ArrayList<SeanceInscrit> inscrit;
 	public HashMap<Long, Professionnel> professionnels;
 	
     private long id=0;
@@ -21,7 +20,6 @@ public class CentreDeDonnes {
 	public  CentreDeDonnes(){
 		membres=new HashMap<Long, Membre>();
 		services=new HashMap<Integer, Service>();
-		inscrit=new ArrayList<SeanceInscrit>();
 		professionnels=new HashMap<Long, Professionnel>();
 	}
 	

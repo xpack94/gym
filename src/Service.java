@@ -13,6 +13,7 @@ public class Service {
   private int capaciteMaximale;
   private long numeroDuProfessionnel;
   private int codeDuService;
+  private double fraisDuService;
   private String commentaire;
   //l'index sert a savoir a quelle case du array seances on insert une nouvelle seance
   private int index=0;
@@ -70,7 +71,7 @@ public void setIndex(int index) {
 
 
 public  Service(String dateEtHeuresActuelles,String dateDebutService,String dateFinService,String heureDuService,String recurrenceHebdo,
-		  int capaciteMaximale,long numeroDuProfessionnel,int codeDuService,String commentaire){
+		  int capaciteMaximale,long numeroDuProfessionnel,int codeDuService,double fraisDuService,String commentaire){
 	  this.dateEtHeuresActuelles=dateEtHeuresActuelles;
 	  this.dateDebutService=dateDebutService;
 	  this.dateFinService=dateFinService;
@@ -79,12 +80,19 @@ public  Service(String dateEtHeuresActuelles,String dateDebutService,String date
 	  this.capaciteMaximale=capaciteMaximale;
 	  this.numeroDuProfessionnel=numeroDuProfessionnel;
 	  this.codeDuService=codeDuService;
+	  this.fraisDuService=fraisDuService;
 	  this.commentaire=commentaire;
 	  this.seances=new Seance[30];
   }
 
 
 
+public double getFraisDuService() {
+	return fraisDuService;
+}
+public void setFraisDuService(double fraisDuService) {
+	this.fraisDuService = fraisDuService;
+}
 public String getDateDebutService() {
 	return dateDebutService;
 }

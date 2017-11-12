@@ -63,6 +63,14 @@ public class Main {
 			break;
 			
 		case 7:
+			a.procedureComptable();
+			break;
+			
+		case 8:
+			a.genererRapport();
+			break;
+			
+		case 9:
 			System.exit(0);
 			
 		}
@@ -93,18 +101,20 @@ public class Main {
 		System.out.println("4:consulter inscription");
 		System.out.println("5:confirmer presence");
 		System.out.println("6:supprimer membre");
-		System.out.println("7:quitter");
+		System.out.println("7:procedure comptable");
+		System.out.println("8:generer le rapport");
+		System.out.println("9:quitter");
 		Scanner sc =new Scanner(System.in);
 		int choix=sc.nextInt();
 		m.choixPris(m,a, choix);
 	}
 	
 	public static void main(String[] args) {
-		String l="15-8-1994";
-		System.out.println(l.substring(0,2));
 		Main m =new Main();
 		Logiciel a =new Logiciel(new CentreDeDonnes());
+		a.runTask();
 		m.faireChoix(m, a);
+		
 		
 		
 		

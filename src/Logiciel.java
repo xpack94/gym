@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -6,9 +12,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 
-public class Logiciel {
+public class Logiciel extends TimerTask {
 
 	private CentreDeDonnes ctrDonne;
 	
@@ -119,7 +128,9 @@ public class Logiciel {
 			System.out.println("entrer l'heure du service sous forme HH:MM");
 			String heureDuService=sc.next();
 			System.out.println("entrer la reccurence hebdomadaire du service");
-			String reccurenceHebdo=sc.next();
+			String reccurenceHebdo=sc.nextLine();
+			System.out.println("entrer les frais du service (ne depasse pas 100.00$)");
+			double frais =sc.nextDouble();
 			System.out.println("entrer un commentaire sur le service (au plus 100 caractaires)");
 			String commentaire=sc.next();
 			
@@ -133,6 +144,10 @@ public class Logiciel {
 			}
 			if(!this.isValidHourFormat(heureDuService)){
 				System.out.println("l'heure du service entrée n'est pas valide");
+				return 0;
+			}
+			if(frais >100){
+				System.out.println("le frais du service ne doivent pas depasser 100$ ");
 				return 0;
 			}
 			if(commentaire.length()>100){
@@ -164,7 +179,8 @@ public class Logiciel {
 				e.printStackTrace();
 			}
 			
-			Service s=new Service(dateEtHeuresAct,dateDebutService,"12/30/2017","20:15","samedi",30,numeroUnique,serviceId,"sans commentaire");
+			
+			Service s =new Service(dateEtHeuresAct,dateDebutService,dateFinService,heureDuService,reccurenceHebdo,30,numeroUnique,serviceId,frais,commentaire);
 			this.ctrDonne.services.put( s.getCodeDuService(), s);
 			//ajouter le service creé dans l'array codeDesServiceDonnés de la class professionnel
 			Professionnel p =this.ctrDonne.professionnels.get(numeroUnique);
@@ -311,6 +327,122 @@ public class Logiciel {
 			return false;
 			
 		}
+		
+		//la methode qui genere le fichier tef avec les informations necessaire 
+		//le fichier tef est generer dans le meme dossier que le projet 
+		public void procedureComptable(){
+			PrintWriter writer;
+			try {
+				writer = new PrintWriter("tef.txt", "UTF-8");
+				int id=1000001;
+				Service s =this.ctrDonne.services.get(id);
+				String dateEtHeuresAct= new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
+				DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+				while(s!=null){
+					try {
+						//s'assurer que la date fin du service n'est pas passé 
+						if(this.compareDatesByCompareTo(df,df.parse(dateEtHeuresAct), df.parse(s.getDateFinService()))==-1){
+							Professionnel p=this.ctrDonne.professionnels.get(s.getNumeroDuProfessionnel());
+							writer.println("nom du professionnel : "+p.getNom());
+							writer.println("numero du professionnel : "+p.getNumeroUnique());
+							writer.println("montant a transferé : "+"100" +"$");
+							writer.println("-----------------------");
+						}
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					s=this.ctrDonne.services.get(++id);
+				}
+				
+				
+				writer.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		public void genererRapport(){
+			
+			try(BufferedReader br = new BufferedReader(new FileReader("tef.txt"))) {
+				ArrayList<Long> pro=new ArrayList<Long>();
+			    StringBuilder sb = new StringBuilder();
+			    String line = br.readLine();
+			    double montantTotal=0;
+			    while (line != null) {
+			    	if(line.contains("numero du professionnel")){
+			    		//ajouter tout les professionnel dans la list pro
+			    		pro.add(Long.parseLong(line.substring(26)));
+			    	}else if(line.contains("montant a transferé")){
+			    		
+			    		montantTotal+=Double.parseDouble(line.substring(22,line.length()-1));
+			    	}
+			    	
+			        sb.append(line);
+			        sb.append(System.lineSeparator());
+			        line = br.readLine();
+			    }
+			   
+			    String everything = sb.toString();
+			    
+			    //afficher tout les professionnel avec le nombre total de leur dervices et frais 
+			    for(int i=0;i<pro.size();i++){
+			    	Professionnel p=this.ctrDonne.professionnels.get(pro.get(i));
+			    	System.out.println("nom : "+p.getNom());
+			    	System.out.println("numero : "+p.getNumeroUnique());
+			    	System.out.println("nombre de services données :"+p.getNombreDeServiceDonné());
+			    	
+			    }
+			    
+			    
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+
+		@Override
+		public void run() {
+			try{
+				this.procedureComptable();
+				
+			}catch(Exception ex){
+				System.out.println("error running thread " + ex.getMessage());
+			}
+			
+		}
+		//la methode qui cree un timer pour creer le fichier tef chaque vendredi a minuit
+		 public void runTask(){
+
+		        Calendar calendar = Calendar.getInstance();
+		        calendar.set(
+		           Calendar.DAY_OF_WEEK,
+		           Calendar.FRIDAY
+		        );
+		        calendar.set(Calendar.HOUR_OF_DAY, 23);
+		        calendar.set(Calendar.MINUTE, 59);
+		        calendar.set(Calendar.SECOND, 59);
+		        calendar.set(Calendar.MILLISECOND, 0);
+
+		        System.out.println("firing now ...");
+
+		        Timer time = new Timer(); // Instantiate Timer Object
+
+		        //commencement du processus qui cree le fichier tef le vendredi a 23:59:59
+		        //avec repetition chaque 168 heures donc chaque vendredi 
+		        time.schedule(this, calendar.getTime(), TimeUnit.HOURS.toMillis(168));
+		}
+		
 		
 		
 }

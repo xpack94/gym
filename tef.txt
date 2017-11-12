@@ -1,0 +1,8 @@
+nom du professionnel : abdou
+numero du professionnel : 1
+montant a transferé : 100$
+-----------------------
+nom du professionnel : abdou
+numero du professionnel : 1
+montant a transferé : 100$
+-----------------------
