@@ -28,8 +28,8 @@ public class Logiciel extends TimerTask {
 	
 	public long ajouterMembre(String typeDuMembre){
 			Scanner sc= new Scanner(System.in);
-		    this.ctrDonne.setId(this.ctrDonne.getId()+1);
-		    long id =this.ctrDonne.getId();
+		    long id =0;
+
 		    System.out.println("entrer votre nom:");
 		    String nom=sc.next();
 		    System.out.println("entrer votre email");
@@ -37,14 +37,20 @@ public class Logiciel extends TimerTask {
 		    String status="actif";
 		    if(typeDuMembre.equals("membreRegulier")){
 		    	//inscrir un membre
-		    	 System.out.println("voulez-vous payer les frais maintenant? oui/nom");
+		    	 System.out.println("payer les frais d'adhesions? oui/non");
 				    String reponse =sc.next();
 				    //affecter au status actif si le membre decide de payer maintenant
 				    if(reponse.equals("non") || reponse.equals("n")){
-				    	status ="suspendu";
+				    	return id;
+				    }else{
+				    	 this.ctrDonne.setId(this.ctrDonne.getId()+1);
+				    	 id=this.ctrDonne.getId();
+				    	 this.ctrDonne.membres.put( id, new MembreRegulier(id,nom,email,status));
 				    }
-				    this.ctrDonne.membres.put( id, new MembreRegulier(id,nom,email,status));
+				   
 		    }else{
+		    	 this.ctrDonne.setId(this.ctrDonne.getId()+1);
+		    	 id=this.ctrDonne.getId();
 		    	//inscrir un professionnel
 		    	this.ctrDonne.professionnels.put(id, new Professionnel(id, nom, email));
 		    }
@@ -58,9 +64,14 @@ public class Logiciel extends TimerTask {
 		this.ctrDonne.membres.remove(numeroUnique);
 		Professionnel p=this.ctrDonne.professionnels.get(numeroUnique);
 		//supprimer les service donné par le professionnel
-		for(int i=0;i<p.getNombreDeServiceDonné();i++){
-			this.ctrDonne.services.remove(p.getCodeDesServiceDonnés(i));
+		try{
+			for(int i=0;i<p.getNombreDeServiceDonné();i++){
+				this.ctrDonne.services.remove(p.getCodeDesServiceDonnés(i));
+			}
+		}catch(Exception e){
+			
 		}
+		
 		
 		this.ctrDonne.professionnels.remove(numeroUnique);
 		
@@ -69,8 +80,13 @@ public class Logiciel extends TimerTask {
 	}
 	
 	
-	public void mettreAjourMembre(Membre m){
-	
+	public void mettreAjourMembre(long num){
+	    Membre m=this.ctrDonne.membres.get(num);
+	    if(m==null){
+	    	System.out.println("le numero est invalide");
+	    	return;
+	    }
+		
 		System.out.println("1:mettre a jour l'email");
 		System.out.println("2:payer les frais mensuels");
 		Scanner sc=new Scanner(System.in);
@@ -88,6 +104,7 @@ public class Logiciel extends TimerTask {
 		}
 		
 		}
+	
 	
 		//la methode qui verifie si un memebre existe
 		protected boolean verificationMembre(long numeroUnique){
@@ -128,6 +145,7 @@ public class Logiciel extends TimerTask {
 			System.out.println("entrer l'heure du service sous forme HH:MM");
 			String heureDuService=sc.next();
 			System.out.println("entrer la reccurence hebdomadaire du service");
+			sc.nextLine();
 			String reccurenceHebdo=sc.nextLine();
 			System.out.println("entrer les frais du service (ne depasse pas 100.00$)");
 			double frais =sc.nextDouble();
@@ -241,6 +259,82 @@ public class Logiciel extends TimerTask {
 		
 		
 		}
+		public void metterAjourService(int n){
+			Service s=this.ctrDonne.services.get(n);
+			if(s==null){
+				System.out.println("le code du service est invalide");
+				return;
+			}
+			System.out.println("que voulez-vous mettre a jour?");
+			System.out.println("1:date fin du service");
+			System.out.println("2:heure du service");
+			System.out.println("3:recurrence hebdomadaire du service");
+			System.out.println("4:frais du service");
+			Scanner sc=new Scanner(System.in);
+			
+			
+			int rep=Integer.parseInt(sc.next());
+			switch (rep){
+			case 1:
+				System.out.println("veuillez entrer la nouvelle date de fin du service sous forme dd-MM-yyyy");
+				String dateFin=sc.next();
+				DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+				if(!isValidFormat(dateFin)   ){
+					System.out.println("la date que vous avez entrée ne correspond pas a la bonne forme");
+					
+				}else{
+					
+					String dateEtHeuresAct= new SimpleDateFormat("dd-MM-yyyy HH-mm-ss").format(Calendar.getInstance().getTime());
+					
+						try {
+							if(this.compareDatesByCompareTo(df, df.parse(s.getDateDebutService().substring(0,10)), df.parse(dateFin)) ==1
+									|| this.compareDatesByCompareTo(df, df.parse(dateEtHeuresAct.substring(0,10)), df.parse(dateFin)) ==1){
+								System.out.println("la nouvelle date n'est pas correcte");
+							}else{
+								s.setDateFinService(dateFin);
+								System.out.println("la nouvelle date a eté mise a jour");
+							}
+							
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					
+				}
+				break;
+			case 2:
+				System.out.println("veuillez entrer le nouveau heure du service sous forme HH:MM");
+				String heure=sc.next();
+				if(!isValidHourFormat(heure)){
+					System.out.println("l'heure entrée ne correspond pas a la bonne forme");
+					
+				}else{
+					s.setHeureDuService(heure);
+					System.out.println("l'heure du service a eté mis a jour");
+				}
+				break;
+			case 3:
+				System.out.println("veuillez entrer la nouvelle reccurence hebdomadaire du service");
+				String reccurence=sc.nextLine();
+				s.setRecurrenceHebdo(reccurence);
+				System.out.println("la reccurence hebdomadaire du service a eté mise a jour");
+				
+				break;
+			
+			case 4:
+				System.out.println("veuillez-entrer la nouvelle somme des frais du service (mois que 100$)");
+				String frais=sc.next();
+				if(Double.parseDouble(frais) >100){
+					System.out.println("les frais ne doivent pas depasser 100$");
+				}else{
+					s.setFraisDuService(Double.parseDouble(frais));
+					System.out.println("les frais ont eté mis a jour");
+				}
+			default:
+				break;
+			}
+			
+		}
 		
 		//la methode qui permet au professionnel de consulter ses seance
 		protected Seance [] consulterSeance(int codeDuService){
@@ -248,17 +342,20 @@ public class Logiciel extends TimerTask {
 			return s.getSeances();
 			
 		}
-		private void afficherToutLesServices(){
+		private int afficherToutLesServices(){
 			int g=1000001;
+			int nombreDeServiceDispo=0;
 			Service s=this.ctrDonne.services.get(g);
 			System.out.println("les services disponible pour aujourd'hui sont : ");
 			while(s!=null){
 				//afficher tout les service dispobible pour aujourd'hui
 				if(s.getDateDebutService().equals(new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime()))){
+					nombreDeServiceDispo++;
 					System.out.println("service numero "+s.getCodeDuService()+" avec le professionnel " +s.getNumeroDuProfessionnel());
 				}
 				s=this.ctrDonne.services.get(++g);
 			}
+			return nombreDeServiceDispo;
 		}
 		
 		public long sinscrirAService(long numeroUnique){
@@ -266,11 +363,19 @@ public class Logiciel extends TimerTask {
 				
 			
 			//s'inscrir au dernier service disponible 
-		    this.afficherToutLesServices();
+		    int nombreDeServiceDispo=this.afficherToutLesServices();
+		    if(nombreDeServiceDispo==0){
+		    	System.out.println("aucun service n'est disponible pour aujourdh'ui");
+		    	return 0;
+		    }
 			Scanner sc =new Scanner(System.in);
 			System.out.println("entrer le numero du service choisit");
 			int num=sc.nextInt();
 			Service service=this.ctrDonne.services.get(num);
+			if(service==null){
+				System.out.println("le numero du service entrée est invalide");
+				return 0;
+			}
 			//tester si la capacité maximale n'est pas atteinte
 			while(service.getIndex()==31){
 				System.out.println("il y'a plus de place disponible pour s'inscrir au service");
@@ -279,12 +384,13 @@ public class Logiciel extends TimerTask {
 				System.out.println("entrer le numero du service choisit");
 				int number=sc.nextInt();
 				service=this.ctrDonne.services.get(number);
+				
 			}
 			//verifier si le membre n'est pas suspendu
 			if( ( (MembreRegulier)this.ctrDonne.membres.get(numeroUnique)).getEtat().equals("suspendu")){
 				System.out.println("vous ne pouvez pas vous inscrir car vous etes suspendu");
 				
-			}else{
+			}else if(!verifierSiDansService(service,numeroUnique)){
 				String dateEtHeuresAct= new SimpleDateFormat("dd-MM-yyyy HH-mm-ss").format(Calendar.getInstance().getTime());
 				Seance seance=new Seance(dateEtHeuresAct, service.getDateDebutService()
 						, service.getNumeroDuProfessionnel(),numeroUnique , service.getCodeDuService(),"");
@@ -294,11 +400,25 @@ public class Logiciel extends TimerTask {
 				
 				System.out.println("vous etes maintenant inscrit");
 				return service.getCodeDuService();
+			}else{
+				System.out.println("vous etes deja inscrit dans ce service ");
 			}
 			
+			}else{
+				System.out.println("le numero entrée est invalide");
 			}
 			
 			return 0000000;
+		}
+		//cette methode permet de verifier si un membre n'est pas deja inscrit a un service 
+		//pour eviter l'inscription une 2eme fois
+		private boolean verifierSiDansService(Service s,long num){
+			for(int i=0;i<s.getIndex();i++){
+				if(s.getSeances(i).getNumero_du_membre()==num){
+					return true;
+				}
+			}
+			return false;
 		}
 	   //la methode qui permet de confirmer une presence a une seance donnée
 		public void confirmationPresence(int codeService,long numeroUnique){
@@ -334,20 +454,29 @@ public class Logiciel extends TimerTask {
 			PrintWriter writer;
 			try {
 				writer = new PrintWriter("tef.txt", "UTF-8");
+				//sauvegarder les numero unique des professionnel pour ne pas repeter le meme professionnel plusieur fois
+				//si ce dernier donne plus qu'un service
+				ArrayList<Long> numeroDesProfessionnels=new ArrayList<Long>();
 				int id=1000001;
 				Service s =this.ctrDonne.services.get(id);
+				
 				String dateEtHeuresAct= new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
 				DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 				while(s!=null){
 					try {
-						//s'assurer que la date fin du service n'est pas passé 
-						if(this.compareDatesByCompareTo(df,df.parse(dateEtHeuresAct), df.parse(s.getDateFinService()))==-1){
-							Professionnel p=this.ctrDonne.professionnels.get(s.getNumeroDuProfessionnel());
-							writer.println("nom du professionnel : "+p.getNom());
-							writer.println("numero du professionnel : "+p.getNumeroUnique());
-							writer.println("montant a transferé : "+"100" +"$");
-							writer.println("-----------------------");
+						if(!numeroDesProfessionnels.contains(s.getNumeroDuProfessionnel())){
+							//s'assurer que la date fin du service n'est pas passé 
+							if(this.compareDatesByCompareTo(df,df.parse(dateEtHeuresAct), df.parse(s.getDateFinService()))==-1){
+								Professionnel p=this.ctrDonne.professionnels.get(s.getNumeroDuProfessionnel());
+								writer.println("nom du professionnel : "+p.getNom());
+								writer.println("numero du professionnel : "+p.getNumeroUnique());
+								writer.println("montant a transferé : "+"100" +"$");
+								writer.println("-----------------------");
+								numeroDesProfessionnels.add(s.getNumeroDuProfessionnel());
+							}
 						}
+						
+					
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -356,7 +485,7 @@ public class Logiciel extends TimerTask {
 					s=this.ctrDonne.services.get(++id);
 				}
 				
-				
+				numeroDesProfessionnels=null;
 				writer.close();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -375,6 +504,7 @@ public class Logiciel extends TimerTask {
 			    StringBuilder sb = new StringBuilder();
 			    String line = br.readLine();
 			    double montantTotal=0;
+			    int nombreDeProf=0,nombreTotalDeService=0;
 			    while (line != null) {
 			    	if(line.contains("numero du professionnel")){
 			    		//ajouter tout les professionnel dans la list pro
@@ -390,15 +520,42 @@ public class Logiciel extends TimerTask {
 			    }
 			   
 			    String everything = sb.toString();
-			    
+			    System.out.println("impression du rapport de synthese.......");
 			    //afficher tout les professionnel avec le nombre total de leur dervices et frais 
 			    for(int i=0;i<pro.size();i++){
 			    	Professionnel p=this.ctrDonne.professionnels.get(pro.get(i));
 			    	System.out.println("nom : "+p.getNom());
 			    	System.out.println("numero : "+p.getNumeroUnique());
 			    	System.out.println("nombre de services données :"+p.getNombreDeServiceDonné());
+			    	//compter les frais totale du professionnel
+			    	double fraisTotal=0;
+			    	for(int j=0;j<p.getCodeDesServiceDonnés().size();j++){
+			    		Service s= this.ctrDonne.services.get(p.getCodeDesServiceDonnés(j));
+			    		//fare la date d'aujourdh'ui -7 jours pour trouver les membres qui ont rejoint le service
+			    		//cette semaine la
+			    		Calendar calendar = Calendar.getInstance(); // this would default to now
+			    		calendar.add(Calendar.DAY_OF_MONTH, -7);
+			    		String sevenDaysAgo=new SimpleDateFormat("dd-MM-yyyy").format(calendar.getTime());
+			    		fraisTotal+= this.verifierMembrePourCetteSemaine(s, sevenDaysAgo);
+			    		
+			    	}
+			    	System.out.println("les frais totale sont: "+fraisTotal+"$" );
+			    	montantTotal+=fraisTotal;
+			    	nombreDeProf++;
+			    	nombreTotalDeService+=p.getCodeDesServiceDonnés().size();
+			    	
+			    	
+			    	//le nombre totale de professionnel qui ont fournis de service cette semaine
+			    	//le nombre totale de service 
+			    	//le nombre totale des frais 
 			    	
 			    }
+			    System.out.println("nombre de professionnel qui ont fournis de service cette semaine : "+nombreDeProf);
+			    System.out.println("nombre totale de service : "+nombreTotalDeService);
+			    System.out.println("nombre totale des frais : "+montantTotal+"$");
+			    
+			    
+			    
 			    
 			    
 			} catch (FileNotFoundException e) {
@@ -409,6 +566,32 @@ public class Logiciel extends TimerTask {
 				e.printStackTrace();
 			}
 		}
+		//cette methode check les membre qui se sont inscrit au service cette semaine la 
+		//et renvoie le frais totale due au professionnel
+		private Double verifierMembrePourCetteSemaine(Service s,String date){
+			DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			Double fraisTotal=0.0;
+	    	for(int i=0;i<s.getIndex();i++){
+	    		//comparer la date dans laquelle le membre c'est inscrit a la seance avec la date actuelle - 7 jours 
+	    		//pour savoir si le membre s'est inscrit au service cette semaine
+	    			try {
+	    				if(s.getIndex()>0){
+	    					
+	    					if(this.compareDatesByCompareTo(df, df.parse(s.getSeances(i).getDate_et_heure_actuelles().substring(0,10)), df.parse(date))>=1){
+								fraisTotal+=s.getFraisDuService();
+							}
+	    				}
+	    				
+						
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	    			
+	    		
+	    	}
+	    	return fraisTotal;
+	    }
 
 
 		@Override

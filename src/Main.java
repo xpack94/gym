@@ -15,12 +15,31 @@ public class Main {
 		Scanner sc =new Scanner(System.in);
 		switch (choix){
 		case 1:
-			System.out.println(" vous etes maintenant inscrit votre numero est: "+a.ajouterMembre("membreRegulier"));
+			    System.out.println("choisiser une des options");
+			    System.out.println("etes-vous?");
+			    System.out.println("1: membre regulier");
+			    System.out.println("2: un professionnel");
+			    String choix1=sc.next();
+			    if(choix1.equals("1")){
+			    	long n=a.ajouterMembre("membreRegulier");
+			    	if(n==0){
+			    		System.out.println("l'inscription est annulé car les frais d'adhesion ne sont pas payés");
+			    	}else{
+			    		System.out.println(" vous etes maintenant inscrit votre numero est: "+n);
+			    	}
+			    	
+			    }else{
+			    	System.out.println(" vous etes maintenant inscrit votre numero est: "+a.ajouterMembre("professionnel"));
+			    }
+			    
+			
 			break;
 		case 2:
+			
 			System.out.println("veuillez entrer votre numero");
 			long num = sc.nextLong();
 			a.sinscrirAService(num);
+			
 			break;
 		case 3:
 			long id=0;
@@ -61,16 +80,28 @@ public class Main {
 			a.supprimerMembre(numero);
 			System.out.println("le membre est supprimé");
 			break;
-			
 		case 7:
+			System.out.println("entrer votre numero");
+			long newNum=sc.nextLong();
+			a.mettreAjourMembre(newNum);
+			break;
+		case 8:
+			System.out.println("entrer le code du service");
+			a.supprimerMembre(sc.nextInt());
+			break;
+		case 9:
+			System.out.println("entrer le code du service");
+			a.metterAjourService(sc.nextInt());
+			break;
+		case 10:
 			a.procedureComptable();
 			break;
 			
-		case 8:
+		case 11:
 			a.genererRapport();
 			break;
 			
-		case 9:
+		case 12:
 			System.exit(0);
 			
 		}
@@ -101,15 +132,20 @@ public class Main {
 		System.out.println("4:consulter inscription");
 		System.out.println("5:confirmer presence");
 		System.out.println("6:supprimer membre");
-		System.out.println("7:procedure comptable");
-		System.out.println("8:generer le rapport");
-		System.out.println("9:quitter");
+		System.out.println("7:mettre a jour membre");
+		System.out.println("8:supprimer service ");
+		System.out.println("9:mettre a jour service");
+		System.out.println("10:procedure comptable");
+		System.out.println("11:generer le rapport");
+		System.out.println("12:quitter");
 		Scanner sc =new Scanner(System.in);
 		int choix=sc.nextInt();
 		m.choixPris(m,a, choix);
 	}
 	
 	public static void main(String[] args) {
+		
+		
 		Main m =new Main();
 		Logiciel a =new Logiciel(new CentreDeDonnes());
 		a.runTask();
