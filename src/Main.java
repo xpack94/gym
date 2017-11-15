@@ -66,6 +66,8 @@ public class Main {
 			System.out.println("entrer le code du service que vous voulez consulter");
 			int code=sc.nextInt();
 			a.consulterSeance(code);
+			
+			
 			break;
 		case 5:
 			System.out.println("veuillez entrer le code de la seance a 7 chiffres");
@@ -94,14 +96,12 @@ public class Main {
 			a.metterAjourService(sc.nextInt());
 			break;
 		case 10:
+			System.out.println("le fichier tef a eté crée dans votre espace de travail");
 			a.procedureComptable();
 			break;
+
 			
 		case 11:
-			a.genererRapport();
-			break;
-			
-		case 12:
 			System.exit(0);
 			
 		}
@@ -136,8 +136,7 @@ public class Main {
 		System.out.println("8:supprimer service ");
 		System.out.println("9:mettre a jour service");
 		System.out.println("10:procedure comptable");
-		System.out.println("11:generer le rapport");
-		System.out.println("12:quitter");
+		System.out.println("11:quitter");
 		Scanner sc =new Scanner(System.in);
 		int choix=sc.nextInt();
 		m.choixPris(m,a, choix);

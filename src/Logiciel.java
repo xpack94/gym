@@ -337,9 +337,18 @@ public class Logiciel extends TimerTask {
 		}
 		
 		//la methode qui permet au professionnel de consulter ses seance
-		protected Seance [] consulterSeance(int codeDuService){
+		protected void  consulterSeance(int codeDuService){
 			Service s=this.ctrDonne.services.get(codeDuService);
-			return s.getSeances();
+			if(s.getIndex()==0){
+				System.out.println("aucun membre n'est inscrit a votre service");
+			}else{
+				System.out.println("les membre qui sont inscrit au service "+codeDuService+" sont :");
+				for(int i=0;i<s.getIndex();i++){
+					System.out.println("Membre numero "+s.getSeances(i).getNumero_du_membre());
+				}
+			}
+			
+			
 			
 		}
 		private int afficherToutLesServices(){
@@ -387,7 +396,9 @@ public class Logiciel extends TimerTask {
 				
 			}
 			//verifier si le membre n'est pas suspendu
-			if( ( (MembreRegulier)this.ctrDonne.membres.get(numeroUnique)).getEtat().equals("suspendu")){
+			if(service.getNumeroDuProfessionnel()==numeroUnique){
+				System.out.println("vous ne pouvez pas vous inscrir a votre propre service");
+			}else if(( (MembreRegulier)this.ctrDonne.membres.get(numeroUnique)).getEtat().equals("suspendu")){
 				System.out.println("vous ne pouvez pas vous inscrir car vous etes suspendu");
 				
 			}else if(!verifierSiDansService(service,numeroUnique)){
@@ -470,7 +481,11 @@ public class Logiciel extends TimerTask {
 								Professionnel p=this.ctrDonne.professionnels.get(s.getNumeroDuProfessionnel());
 								writer.println("nom du professionnel : "+p.getNom());
 								writer.println("numero du professionnel : "+p.getNumeroUnique());
-								writer.println("montant a transferé : "+"100" +"$");
+								Calendar calendar = Calendar.getInstance(); 
+					    		calendar.add(Calendar.DAY_OF_MONTH, -7);
+					    		String sevenDaysAgo=new SimpleDateFormat("dd-MM-yyyy").format(calendar.getTime());
+				
+								writer.println("montant a transferé : "+this.verifierMembrePourCetteSemaine(s, sevenDaysAgo) +"$");
 								writer.println("-----------------------");
 								numeroDesProfessionnels.add(s.getNumeroDuProfessionnel());
 							}
@@ -487,6 +502,8 @@ public class Logiciel extends TimerTask {
 				
 				numeroDesProfessionnels=null;
 				writer.close();
+				//appeler la methode genererRapport pour generer le rapport de synthese a partir du fichier tef
+				this.genererRapport();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
