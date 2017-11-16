@@ -1,4 +1,0 @@
-nom du professionnel : f
-numero du professionnel : 1
-montant a transferé : 55.0$
------------------------

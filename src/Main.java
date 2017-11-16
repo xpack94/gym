@@ -89,7 +89,7 @@ public class Main {
 			break;
 		case 8:
 			System.out.println("entrer le code du service");
-			a.supprimerMembre(sc.nextInt());
+			a.removeService(sc.nextInt());
 			break;
 		case 9:
 			System.out.println("entrer le code du service");
