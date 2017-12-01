@@ -14,8 +14,8 @@ public class CentreDeDonnes {
 	public HashMap<Integer ,Service> services;
 	public HashMap<Long, Professionnel> professionnels;
 	
-    private long id=0;
-	private int serviceId=1000000;
+    private long id=100000000;
+	private int serviceId=100;
 	
 	public  CentreDeDonnes(){
 		membres=new HashMap<Long, Membre>();
