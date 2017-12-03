@@ -100,8 +100,30 @@ public class Main {
 			a.procedureComptable();
 			break;
 
-			
 		case 11:
+			System.out.println("entrer votre email");
+			String email =sc.next();
+			Membre member=a.verifierEmail(email);
+			if(member!=null) {
+				System.out.println("connecté");
+				new MenuMembreRegulier(a).afficherMenu(member);
+			}else{
+				System.out.println("l'email est invalide");
+			}
+			break;
+		case 12:
+			System.out.println("entrer votre email");
+			String email1=sc.next();
+			Professionnel mem=a.verifierEmailDeProfessionnel(email1);
+			if(mem!=null){
+				System.out.println("connecté");
+				new MenuDeProfessionnel(a).afficherMenu(mem);
+			}else{
+				System.out.println("l'email est invalide");
+			}
+			break;
+		
+		case 13:
 			System.exit(0);
 			
 		}
@@ -136,7 +158,9 @@ public class Main {
 		System.out.println("8:supprimer service ");
 		System.out.println("9:mettre a jour service");
 		System.out.println("10:procedure comptable");
-		System.out.println("11:quitter");
+		System.out.println("11:menu membre");
+		System.out.println("12:menu professionnel");
+		System.out.println("13:quitter");
 		Scanner sc =new Scanner(System.in);
 		int choix=sc.nextInt();
 		m.choixPris(m,a, choix);

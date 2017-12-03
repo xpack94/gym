@@ -53,15 +53,10 @@ public class Logiciel extends TimerTask {
 			return m;
 		}
 		
-	
-		
 		//la methode qui permet a un professionnel de donner un service 
 		protected int DonnerService(long numeroUnique){
 			return new GestionDeService().DonnerService(numeroUnique, this.ctrDonne);
 		}
-		
-		
-	
 		
 		
 		//la methode qui permet de supprimer une service 
@@ -273,6 +268,52 @@ public class Logiciel extends TimerTask {
 	    	}
 	    	return fraisTotal;
 	    }
+		
+		//la methode qui verifie si l'email du membre et valide l'hors de la connection
+		//la methode retourne le membre si trouvé
+		public Membre verifierEmail(String email){
+			long n=100000000;
+			int counter=0;
+			Membre p=ctrDonne.membres.get(n);
+			while(counter<=ctrDonne.professionnels.size()-1){
+				
+				if(p!=null){
+					counter++;
+					if(p.getEmail().equals(email)){
+						return p;
+					}
+				}else{
+					p=ctrDonne.membres.get(++n);
+				}
+						
+				
+				
+				}
+		
+			return null;
+			
+		}
+		public Professionnel verifierEmailDeProfessionnel(String email){
+			long n=100000000;
+			int counter=0;
+			Professionnel p=ctrDonne.professionnels.get(n);
+			while(counter<=ctrDonne.professionnels.size()-1){
+				if(p!=null ) {
+					counter++;
+					if(p.getEmail().equals(email)){
+						return p;
+					}
+				}else{
+					p=ctrDonne.professionnels.get(++n);
+				}
+				
+				}
+				
+			
+			
+			return null;
+			
+		}
 
 
 		@Override

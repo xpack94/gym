@@ -21,6 +21,12 @@ public class GestionDeMembre {
 		    sc.nextLine();
 		    String status="actif";
 		    
+		    if(new Logiciel(ctrDonne).verifierEmail(email)!=null){
+		    	System.out.println("inscription echoué");
+		    	System.out.println("l'email existe deja ");
+		    	return id;
+		    }
+		    
 		    if(typeDuMembre.equals("membreRegulier")){
 		    	//inscrir un membre
 		    	 System.out.println("payer les frais d'adhesions? oui/non");
@@ -88,6 +94,7 @@ public class GestionDeMembre {
 				System.out.println("entrer votre nouvelle adresse email");
 				String email=sc.next();
 				m.setEmail(email);
+				System.out.println("l'email a eté mis a jour");
 				break;
 			case 2:
 				//le membre choisi de payer les frais mensuels
