@@ -70,11 +70,11 @@ public class Main {
 			
 			break;
 		case 5:
-			System.out.println("veuillez entrer le code de la seance a 7 chiffres");
+			System.out.println("veuillez entrer le code ");
 			int codeSeance=sc.nextInt();
 			System.out.println("veuillez entrer votre numero");
 			long numeroUnique=sc.nextLong();
-			a.confirmationPresence(codeSeance, numeroUnique);
+			
 			break;
 		case 6:
 			System.out.println("entrer votre numero ");
@@ -169,10 +169,13 @@ public class Main {
 	public static void main(String[] args) {
 		
 		
+		
 		Main m =new Main();
 		Logiciel a =new Logiciel(new CentreDeDonnes());
 		a.runTask();
 		m.faireChoix(m, a);
+		
+		
 		
 		
 		

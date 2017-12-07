@@ -10,9 +10,11 @@ public class MenuDeProfessionnel {
 	
 	public void afficherMenu(Membre m){
 		System.out.println("bienvenue a Gym "+m.getNom());
+		System.out.println("votre numero est "+m.getNumeroUnique());
 		System.out.println("veuillez choisir une option ");
 		System.out.println("1:consulter les inscriptions au séances");
 		System.out.println("2:modification des informations");
+		System.out.println("3:confirmation de presence ");
 		Scanner sc=new Scanner(System.in);
 		this.choisirOption(m, Integer.parseInt(sc.next()));
 	}
@@ -23,6 +25,8 @@ public class MenuDeProfessionnel {
 			System.out.println("entrer le code du service");
 			log.consulterSeance(Integer.parseInt(read.next()));
 			break;
+		case 3:
+			log.confirmationPresence(m.getNumeroUnique());
 		}
 		
 		

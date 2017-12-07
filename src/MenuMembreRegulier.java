@@ -10,6 +10,7 @@ public class MenuMembreRegulier {
 	
 	public void afficherMenu(Membre m){
 		System.out.println("bienvenue a Gym "+ m.getNom());
+		System.out.println("votre numero est :"+m.getNumeroUnique());
 		System.out.println("veuillez choisir une option");
 		System.out.println("1:s'inscrir a une séance ");
 		System.out.println("2:mettre a jours les informations");

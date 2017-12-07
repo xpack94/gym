@@ -30,8 +30,7 @@ public class GestionDeService {
 				System.out.println("entrer la reccurence hebdomadaire du service");
 				sc.nextLine();
 				String reccurenceHebdo=sc.nextLine();
-				System.out.println("entrer les frais du service (ne depasse pas 100.00$)");
-				double frais =sc.nextDouble();
+				
 				System.out.println("entrer un commentaire sur le service (au plus 100 caractaires)");
 				String commentaire=sc.next();
 				
@@ -45,10 +44,6 @@ public class GestionDeService {
 				}
 				if(!this.isValidHourFormat(heureDuService)){
 					System.out.println("l'heure du service entrée n'est pas valide");
-					return 0;
-				}
-				if(frais >100){
-					System.out.println("le frais du service ne doivent pas depasser 100$ ");
 					return 0;
 				}
 				if(commentaire.length()>100){
@@ -80,9 +75,14 @@ public class GestionDeService {
 					e.printStackTrace();
 				}
 				
-				
-				Service s =new Service(dateEtHeuresAct,dateDebutService,dateFinService,heureDuService,reccurenceHebdo,30,numeroUnique,serviceId,frais,commentaire);
+				String [] occurences=reccurenceHebdo.split(" ");
+				Service s =new Service(dateEtHeuresAct,dateDebutService,dateFinService,heureDuService,reccurenceHebdo,30,numeroUnique,serviceId,commentaire);
 				ctrDonne.services.put( s.getCodeDuService(), s);
+				//le nombre de seance depend des occurences hebdomadaire
+				s.setNombreDeSeance(occurences.length);
+				//generer les codes des seances correspondants
+				genererCodeSeances(occurences ,s);
+				
 				//ajouter le service creé dans l'array codeDesServiceDonnés de la class professionnel
 				Professionnel p =ctrDonne.professionnels.get(numeroUnique);
 				ArrayList <Integer> list=p.getCodeDesServiceDonnés();
@@ -93,6 +93,22 @@ public class GestionDeService {
 				return serviceId;
 			}
 			
+			
+			private void genererCodeSeances(String [] occurences ,Service s ){
+				for(int i=0;i<occurences.length;i++){
+					//generer le code de la seance de occurences[i]
+					String numDuProfessionnel=String.valueOf(s.getNumeroDuProfessionnel());
+					String deuxDerniersChiffres=numDuProfessionnel.substring(numDuProfessionnel.length()-2, numDuProfessionnel.length());
+					String code= String.valueOf(s.getCodeDuService())+String.valueOf(s.getNumeroDeSeance())+deuxDerniersChiffres;
+					int n=s.getNumeroDeSeance()+1;
+					s.setNumeroDeSeance(n);
+					int codeSeance=Integer.parseInt(code);
+					s.setSeancesList(codeSeance, new Seance(codeSeance,occurences[i]));
+					System.out.println("la seance du "+occurences[i]+" a le code "+codeSeance);
+					s.setCodeDesSeance(codeSeance);
+				}
+				
+			}
 			
 			
 			protected void removeService(int codeDuService,CentreDeDonnes ctrDonne){
@@ -106,6 +122,9 @@ public class GestionDeService {
 				
 				
 				}
+			
+			
+			
 			
 			
 			public void metterAjourService(int n,CentreDeDonnes ctrDonne){
@@ -175,9 +194,6 @@ public class GestionDeService {
 					String frais=sc.next();
 					if(Double.parseDouble(frais) >100){
 						System.out.println("les frais ne doivent pas depasser 100$");
-					}else{
-						s.setFraisDuService(Double.parseDouble(frais));
-						System.out.println("les frais ont eté mis a jour");
 					}
 				default:
 					break;
@@ -199,34 +215,41 @@ public class GestionDeService {
 				Scanner sc =new Scanner(System.in);
 				System.out.println("entrer le numero du service choisit");
 				int num=sc.nextInt();
-				Service service=ctrDonne.services.get(num);
+				int codeDuServiceChoisit=Integer.parseInt( String.valueOf(num).substring(0, 3));
+				Service service=ctrDonne.services.get(codeDuServiceChoisit);
+				Seance s=service.getSeancesList().get(num);
 				if(service==null){
 					System.out.println("le numero du service entrée est invalide");
 					return 0;
 				}
 				//tester si la capacité maximale n'est pas atteinte
-				while(service.getIndex()==31){
-					System.out.println("il y'a plus de place disponible pour s'inscrir au service");
-					System.out.println("essayer un autre service!");
+				while(s.getIndex()==31){
+					System.out.println("il y'a plus de place disponible pour s'inscrir a la seance");
+					System.out.println("essayer une autre seance!");
 					this.afficherToutLesServices(ctrDonne);
-					System.out.println("entrer le numero du service choisit");
+					System.out.println("entrer le numero de la seance choisit");
 					int number=sc.nextInt();
-					service=ctrDonne.services.get(number);
+					codeDuServiceChoisit=Integer.parseInt( String.valueOf(number).substring(0, 3));
+					service=ctrDonne.services.get(codeDuServiceChoisit);
 					
 				}
 				//verifier si le membre n'est pas suspendu
+				//verifier si le numero nest pas celui du professionnel
 				if(service.getNumeroDuProfessionnel()==numeroUnique){
 					System.out.println("vous ne pouvez pas vous inscrir a votre propre service");
 				}else if(( (MembreRegulier)ctrDonne.membres.get(numeroUnique)).getEtat().equals("suspendu")){
 					System.out.println("vous ne pouvez pas vous inscrir car vous etes suspendu");
 					
-				}else if(!verifierSiDansService(service,numeroUnique)){
+				}else if(!verifierSiDansService(s,numeroUnique)){
 					String dateEtHeuresAct= new SimpleDateFormat("dd-MM-yyyy HH-mm-ss").format(Calendar.getInstance().getTime());
-					Seance seance=new Seance(dateEtHeuresAct, service.getDateDebutService()
+					//generer le code de la seance a 7 chiffres 
+					
+					MembreInscrit memberInscrit=new MembreInscrit(dateEtHeuresAct, service.getDateDebutService()
 							, service.getNumeroDuProfessionnel(),numeroUnique , service.getCodeDuService(),"");
 					
 					//ajouter les information relatif a cette senace dans le ArrayList du centre de donnée
-					service.setSeances(seance);		
+					//service.setSeances(seance);		
+					s.setMembreInscrit(memberInscrit);
 					
 					System.out.println("vous etes maintenant inscrit");
 					return service.getCodeDuService();
@@ -241,16 +264,30 @@ public class GestionDeService {
 				return 0000000;
 			}
 			
+			//afficher tous les service disponible pour aujourd'hui 
 			private int afficherToutLesServices(CentreDeDonnes ctrDonne){
 				int g=101;
 				int nombreDeServiceDispo=0;
+				//obtenir le jour d'aujourdh'ui 
+				String jour= this.getCurrentDay();
 				Service s=ctrDonne.services.get(g);
 				System.out.println("les services disponible pour aujourd'hui sont : ");
 				while(s!=null){
+					
 					//afficher tout les service dispobible pour aujourd'hui
-					if(s.getDateDebutService().equals(new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime()))){
-						nombreDeServiceDispo++;
-						System.out.println("service numero "+s.getCodeDuService()+" avec le professionnel " +s.getNumeroDuProfessionnel());
+					int codeDuServiceDispo=this.seDonneAujourdhui(s,jour);
+					
+					String dateEtHeuresAct= new SimpleDateFormat("dd-MM-yyyy HH-mm-ss").format(Calendar.getInstance().getTime());
+					DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+					try {
+						if(codeDuServiceDispo!=0 && (this.compareDatesByCompareTo(df, df.parse(dateEtHeuresAct), df.parse( s.getDateDebutService()))!=-1 )
+								&& (this.compareDatesByCompareTo(df, df.parse(dateEtHeuresAct), df.parse( s.getDateFinService()))==-1 )){
+							nombreDeServiceDispo++;
+							System.out.println("seance numero"+codeDuServiceDispo+"du service "+s.getCodeDuService()+" avec le professionnel " +s.getNumeroDuProfessionnel());
+						}
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					s=ctrDonne.services.get(++g);
 				}
@@ -269,11 +306,100 @@ public class GestionDeService {
 		        
 		        return 1;
 		    }
-
+			//verifie si un service se donne a une journée donnée
+			private  int seDonneAujourdhui(Service s,String jour){
+				ArrayList<Integer> seanceCodes=s.getCodeDesSeance();
+				for(int i =0; i<seanceCodes.size();i++){
+					Seance seance=s.getSeancesList().get(seanceCodes.get(i));
+					if(seance.getJour().equals(jour)){
+						return seanceCodes.get(i);
+					}
+				}
+				return 0;
+			}
 			
-			private boolean verifierSiDansService(Service s,long num){
+			
+			
+			
+			//methode qui permet au professionnel de verifier et confirmer la presence d'un membre a la seance 
+			
+			public void confirmationPresence(CentreDeDonnes ctrDonne,long num){
+				
+				int codeDeSeance=this.chercherCodeDeSeance(num, ctrDonne);
+				if(codeDeSeance!=0){
+					//la seance a ete trouvé 
+					System.out.println("entrer le numero unique du memebre a verifier  ");
+					Scanner sc=new Scanner(System.in);
+					long numeroUniqueMembre =sc.nextLong();
+					int numeroDuService=Integer.parseInt(String.valueOf(codeDeSeance).substring(0, 3));
+					Seance s=ctrDonne.services.get(numeroDuService).getSeancesList().get(codeDeSeance);
+					MembreInscrit[]  m=s.getMembreInscrit();
+					for(int i=0;i<m.length;i++){
+						//verifier que le membre est dans la seance
+						if(m[i].getNumero_du_membre()==numeroUniqueMembre){
+							System.out.println("validé");
+							return;
+						}
+					}
+					System.out.println("vous n'etes pas inscrit");
+					
+					
+				}
+				
+				
+
+				
+			}
+			
+			private int chercherCodeDeSeance(long numeroUnique,CentreDeDonnes  ctr){
+			Professionnel p=ctr.professionnels.get(numeroUnique);
+			//chercher dans tout les services donnés 
+			ArrayList<Integer> codes=p.getCodeDesServiceDonnés();
+			for(int i=0;i<codes.size();i++){
+				Service s=ctr.services.get(codes.get(i));
+				ArrayList<Integer> codeDesSeances=s.getCodeDesSeance();
+				for(int j=0;j<codeDesSeances.size();j++ ){
+					Seance seance=s.getSeancesList().get(codeDesSeances.get(j));
+					String jour=this.getCurrentDay();
+					//verifier si le jour d'aujourdh'ui et le meme jour 
+					//ou la seance est donnée 
+					if(jour.equals(seance.getJour())){
+						return codeDesSeances.get(j);
+					}
+				}
+			}
+			//valeur par defaut 
+			return 0;
+			}
+			
+			
+
+			private String getCurrentDay(){
+				Calendar today = Calendar.getInstance();
+				int day =today.get(Calendar.DAY_OF_WEEK);
+				switch (day) {
+			    case Calendar.SUNDAY:
+			    	return "dimanche";
+
+			    case Calendar.MONDAY:
+			        return "lundi";
+
+			    case Calendar.TUESDAY:
+			        return "mardi";
+			    case Calendar.WEDNESDAY:
+			    	return "mercredi";
+			    case Calendar.THURSDAY:
+			    	return "jeudi";
+			    case Calendar.FRIDAY:
+			    	return "vendredi";
+			    case Calendar.SATURDAY:
+			    	return "samedi";
+			}
+				return "defaut";
+			}
+			private boolean verifierSiDansService(Seance  s,long num){
 				for(int i=0;i<s.getIndex();i++){
-					if(s.getSeances(i).getNumero_du_membre()==num){
+					if(s.getMembreInscrit()[i].getNumero_du_membre()==num){
 						return true;
 					}
 				}

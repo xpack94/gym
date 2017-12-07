@@ -1,10 +1,13 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
 
 
 public class Service {
-  private Seance [] seances;
+  private MembreInscrit [] seances;
+  private HashMap<Integer, Seance> SeancesList;
+  private ArrayList<Integer> codeDesSeance;
   private String dateEtHeuresActuelles;
   private  String dateDebutService;
   private  String dateFinService;
@@ -13,22 +16,44 @@ public class Service {
   private int capaciteMaximale;
   private long numeroDuProfessionnel;
   private int codeDuService;
-  private double fraisDuService;
   private String commentaire;
   //l'index sert a savoir a quelle case du array seances on insert une nouvelle seance
   private int index=0;
+//initialiser le nombre de seance a 0 
+  private int nombreDeSeance=0;
+  //initialise le numero de la seance a 10 (nombre arbitraire)
+  private int numeroDeSeance=10;
+  
+  
+  
+  public int getNombreDeSeance() {
+	return nombreDeSeance;
+}
+public void setNombreDeSeance(int nombreDeSeance) {
+	this.nombreDeSeance = nombreDeSeance;
+}
 
 
-public Seance getSeances(int n) {
+
+
+
+
+public HashMap<Integer, Seance> getSeancesList() {
+	return SeancesList;
+}
+public void setSeancesList(Integer n,Seance s) {
+	SeancesList.put(n, s);
+}
+public MembreInscrit getSeances(int n) {
 	return this.seances[n];
 }
-public Seance [] getSeances(){
+public MembreInscrit [] getSeances(){
 	return this.seances;
 }
 
 
 
-public void setSeances(Seance seances) {
+public void setSeances(MembreInscrit seances) {
 	this.seances[this.index++]=seances;
 }
 
@@ -71,7 +96,7 @@ public void setIndex(int index) {
 
 
 public  Service(String dateEtHeuresActuelles,String dateDebutService,String dateFinService,String heureDuService,String recurrenceHebdo,
-		  int capaciteMaximale,long numeroDuProfessionnel,int codeDuService,double fraisDuService,String commentaire){
+		  int capaciteMaximale,long numeroDuProfessionnel,int codeDuService,String commentaire){
 	  this.dateEtHeuresActuelles=dateEtHeuresActuelles;
 	  this.dateDebutService=dateDebutService;
 	  this.dateFinService=dateFinService;
@@ -80,18 +105,20 @@ public  Service(String dateEtHeuresActuelles,String dateDebutService,String date
 	  this.capaciteMaximale=capaciteMaximale;
 	  this.numeroDuProfessionnel=numeroDuProfessionnel;
 	  this.codeDuService=codeDuService;
-	  this.fraisDuService=fraisDuService;
 	  this.commentaire=commentaire;
-	  this.seances=new Seance[30];
+	  this.seances=new MembreInscrit[30];
+	  this.SeancesList=new HashMap<Integer,Seance>();
+	  this.codeDesSeance=new ArrayList<Integer>();
   }
 
 
 
-public double getFraisDuService() {
-	return fraisDuService;
+
+public int getNumeroDeSeance() {
+	return numeroDeSeance;
 }
-public void setFraisDuService(double fraisDuService) {
-	this.fraisDuService = fraisDuService;
+public void setNumeroDeSeance(int numeroDeSeance) {
+	this.numeroDeSeance = numeroDeSeance;
 }
 public String getDateDebutService() {
 	return dateDebutService;
@@ -174,5 +201,18 @@ public int getCodeDuService() {
 public void setCodeDuService(int codeDuService) {
 	this.codeDuService = codeDuService;
 }
+public ArrayList<Integer> getCodeDesSeance() {
+	return codeDesSeance;
+}
+public void setCodeDesSeance(ArrayList<Integer> codeDesSeance) {
+	this.codeDesSeance = codeDesSeance;
+}
+public void setCodeDesSeance( int code) {
+	this.codeDesSeance.add(code);
+}
+public void setSeancesList(HashMap<Integer, Seance> seancesList) {
+	SeancesList = seancesList;
+}
+
 	
 }

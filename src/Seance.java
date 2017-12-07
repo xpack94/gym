@@ -1,72 +1,72 @@
-import java.sql.Date;
-
 
 public class Seance {
 
-	private String Date_et_heure_actuelles;
-	private String Date_à_laquelle_du_service_qui_sera_fourni;
-	private long numéro_du_professionnel;
-	private long numero_du_membre;
-	private int codeDuService;
-	private String commentaire;
+	private int codeDeSeance;
+	private String jour;
+	private MembreInscrit [] membreInscrit ;
+	private int index;
 	
-	public Seance(String dateAct,String dateAfournir,long numeroDuProfessionnel,long numeroDuMembre,int codeDuService,String commentaire){
-		this.Date_et_heure_actuelles=dateAct;
-		this.Date_à_laquelle_du_service_qui_sera_fourni=dateAfournir;
-		this.numéro_du_professionnel=numeroDuProfessionnel;
-		this.numero_du_membre=numeroDuMembre;
-		this.codeDuService=codeDuService;
-		this.commentaire=commentaire;
+	
+	public Seance(int codeDeSeance, String jour){
+		this.codeDeSeance =codeDeSeance;
+		this.jour=jour;
+		//car la seance peut avoir 30 membre au max
+		this.membreInscrit=new MembreInscrit[30];
+		index=0;
 	}
 
-	public int getCodeDuService() {
-		return codeDuService;
+
+
+	public int getIndex() {
+		return index;
 	}
 
-	public void setCodeDuService(int codeDuService) {
-		this.codeDuService = codeDuService;
+
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 
-	public String getDate_et_heure_actuelles() {
-		return Date_et_heure_actuelles;
+
+
+	public int getCodeDeSeance() {
+		return codeDeSeance;
 	}
 
-	public void setDate_et_heure_actuelles(String date_et_heure_actuelles) {
-		Date_et_heure_actuelles = date_et_heure_actuelles;
+
+
+	public void setCodeDeSeance(int codeDeSeance) {
+		this.codeDeSeance = codeDeSeance;
 	}
 
-	public String getDate_à_laquelle_du_service_qui_sera_fourni() {
-		return Date_à_laquelle_du_service_qui_sera_fourni;
+
+
+	public String getJour() {
+		return jour;
 	}
 
-	public void setDate_à_laquelle_du_service_qui_sera_fourni(
-			String date_à_laquelle_du_service_qui_sera_fourni) {
-		Date_à_laquelle_du_service_qui_sera_fourni = date_à_laquelle_du_service_qui_sera_fourni;
+
+
+	public void setJour(String jour) {
+		this.jour = jour;
 	}
 
-	public long getNuméro_du_professionnel() {
-		return numéro_du_professionnel;
+
+
+	public MembreInscrit[] getMembreInscrit() {
+		return membreInscrit;
 	}
 
-	public void setNuméro_du_professionnel(long numéro_du_professionnel) {
-		this.numéro_du_professionnel = numéro_du_professionnel;
-	}
 
-	public long getNumero_du_membre() {
-		return numero_du_membre;
-	}
 
-	public void setNumero_du_membre(long numero_du_membre) {
-		this.numero_du_membre = numero_du_membre;
+	public void setMembreInscrit(MembreInscrit[] membreInscrit) {
+		this.membreInscrit = membreInscrit;
 	}
-
-	public String getCommentaire() {
-		return commentaire;
+	
+	public void setMembreInscrit(MembreInscrit m) {
+		this.membreInscrit[this.index++]=m;
 	}
-
-	public void setCommentaire(String commentaire) {
-		this.commentaire = commentaire;
-	}
+	
 	
 	
 }

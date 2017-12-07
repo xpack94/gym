@@ -91,20 +91,9 @@ public class Logiciel extends TimerTask {
 		//pour eviter l'inscription une 2eme fois
 	
 	   //la methode qui permet de confirmer une presence a une seance donnée
-		public void confirmationPresence(int codeService,long numeroUnique){
-			//l'agent cherche le service avec le code du service
-			Service s=this.ctrDonne.services.get(codeService);
+		public void confirmationPresence(long numeroUnique){
 			
-			//verifier si l'inscription du memebre au service est valide
-			if(s!=null && verifierInscription(s,numeroUnique)){
-				System.out.println("validé");
-			}else if(s==null){
-				//le memebre n'est pas inscrit au service
-				System.out.println("le service n'existe pas ");
-			}else{
-				System.out.println("vous n'etes pas inscrit");
-			}
-
+			new GestionDeService().confirmationPresence(ctrDonne, numeroUnique);
 			
 		}
 		//la methode qui verifie si un memebre est inscrit a une seance 
@@ -254,7 +243,7 @@ public class Logiciel extends TimerTask {
 	    				if(s.getIndex()>0){
 	    					
 	    					if(new GestionDeService().compareDatesByCompareTo(df, df.parse(s.getSeances(i).getDate_et_heure_actuelles().substring(0,10)), df.parse(date))>=1){
-								fraisTotal+=s.getFraisDuService();
+								fraisTotal+=50;
 							}
 	    				}
 	    				
