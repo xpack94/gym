@@ -250,6 +250,11 @@ public class GestionDeService {
 					//ajouter les information relatif a cette senace dans le ArrayList du centre de donnée
 					//service.setSeances(seance);		
 					s.setMembreInscrit(memberInscrit);
+					//ajouter le code de la seance dans la listes des seance du membre 
+					Membre m=ctrDonne.membres.get(numeroUnique);
+					if(m!=null){
+						m.setCodeDesSeancesInscirit(num);
+					}
 					
 					System.out.println("vous etes maintenant inscrit");
 					return service.getCodeDuService();
@@ -294,6 +299,9 @@ public class GestionDeService {
 				return nombreDeServiceDispo;
 			}
 			
+			
+			
+			
 			public  int compareDatesByCompareTo(DateFormat df, java.util.Date oldDate, java.util.Date newDate) {
 		        
 		        if (oldDate.compareTo(newDate) == 0) {  
@@ -306,6 +314,8 @@ public class GestionDeService {
 		        
 		        return 1;
 		    }
+			
+			
 			//verifie si un service se donne a une journée donnée
 			private  int seDonneAujourdhui(Service s,String jour){
 				ArrayList<Integer> seanceCodes=s.getCodeDesSeance();
@@ -328,7 +338,7 @@ public class GestionDeService {
 				int codeDeSeance=this.chercherCodeDeSeance(num, ctrDonne);
 				if(codeDeSeance!=0){
 					//la seance a ete trouvé 
-					System.out.println("entrer le numero unique du memebre a verifier  ");
+					System.out.println("entrer le numero unique du membre a verifier  ");
 					Scanner sc=new Scanner(System.in);
 					long numeroUniqueMembre =sc.nextLong();
 					int numeroDuService=Integer.parseInt(String.valueOf(codeDeSeance).substring(0, 3));
@@ -338,6 +348,11 @@ public class GestionDeService {
 						//verifier que le membre est dans la seance
 						if(m[i].getNumero_du_membre()==numeroUniqueMembre){
 							System.out.println("validé");
+							Membre member=ctrDonne.membres.get(numeroUniqueMembre);
+							if(member !=null){
+								String dateEtHeuresAct= new SimpleDateFormat("dd-MM-yyyy HH-mm-ss").format(Calendar.getInstance().getTime());
+								member.setPresence(new Presence(dateEtHeuresAct, num, numeroUniqueMembre, codeDeSeance, "present"));
+							}
 							return;
 						}
 					}

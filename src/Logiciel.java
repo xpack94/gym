@@ -264,7 +264,7 @@ public class Logiciel extends TimerTask {
 			long n=100000000;
 			int counter=0;
 			Membre p=ctrDonne.membres.get(n);
-			while(counter<=ctrDonne.professionnels.size()-1){
+			while(counter<=ctrDonne.membres.size()-1){
 				
 				if(p!=null){
 					counter++;

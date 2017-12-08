@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -5,18 +6,18 @@ public class GestionDeMembre {
 	long id;
 	public long creerUnMembre(String typeDuMembre,CentreDeDonnes ctrDonne){
 		Scanner sc=new Scanner(System.in);
-			System.out.println("entrer votre nom:");
+			System.out.println("entrer votre nom (25 lettres):");
 		    String nom=sc.next();
 		    System.out.println("entrer votre email");
 		    String email=sc.next();
-		    System.out.println("entrer votre adresse");
+		    System.out.println("entrer votre adresse (25 caractaires)");
 		    String adresse=sc.nextLine();
 		    sc.nextLine();
-		    System.out.println("entrer votre ville ");
+		    System.out.println("entrer votre ville  (14 caractaires)");
 		    String ville =sc.next();
-		    System.out.println("entrer votre province ");
+		    System.out.println("entrer votre province (2 lettres) ");
 		    String province =sc.next();
-		    System.out.println("entrer votre code postal");
+		    System.out.println("entrer votre code postal (6 caractaires) ");
 		    String codePostal=sc.nextLine();
 		    sc.nextLine();
 		    String status="actif";
@@ -27,6 +28,31 @@ public class GestionDeMembre {
 		    	return id;
 		    }
 		    
+		   if(!this.conttienLettres(nom, 25)){
+			   System.out.println("le nom depasse les 25 lettres");
+			   System.out.println("l'inscription a echoué");
+			   return id;
+		   }
+		   if(adresse.length()>25){
+			   System.out.println("l'adresse contient plus que 25 caractaires");
+			   System.out.println("l'inscription a echoué");
+			   return id;
+		   }
+		   if(ville.length()>14){
+			   System.out.println("la ville contient plus que 14 caractaires");
+			   System.out.println("l'inscription a echoué");
+			   return id;
+		   }
+		    if(!conttienLettres(province, 2)){
+		    	System.out.println("la province a plus que 2 lettres");
+		    	System.out.println("l'inscription a echoué");
+		    	return id;
+		    }
+		    if(codePostal.length()>6){
+		    	System.out.println("le code postal contient plus que 6 caractaires");
+		    	System.out.println("l'inscripton a echoué ");
+		    	return id;
+		    }
 		    if(typeDuMembre.equals("membreRegulier")){
 		    	//inscrir un membre
 		    	 System.out.println("payer les frais d'adhesions? oui/non");
@@ -51,6 +77,20 @@ public class GestionDeMembre {
 			return id;
 		    
 	}
+	//calcule le nombre de lettre dans une chaine de caractaires
+	public boolean conttienLettres(String word,int nbrLettres){
+		int comp=0;
+		for(int i=0;i<word.length();i++){
+			if(Character.isLetter(word.charAt(i))){
+				comp++;
+			}
+		}
+		if(comp>nbrLettres){
+			return false;
+		}
+		return true;
+	}
+	
 	
 	public void supprimerMembre(long numeroUnique,CentreDeDonnes ctrDonne){
 		
@@ -143,6 +183,28 @@ public class GestionDeMembre {
 		}
 		return false;
 		
+	}
+	
+	public void listDesService(CentreDeDonnes ctrDonne,long numeroUnique){
+		Membre m=ctrDonne.membres.get(numeroUnique);
+		if(m!=null){
+			System.out.println("nom "+m.getNom());
+			System.out.println("numero unique "+m.getNumeroUnique());
+			System.out.println("adresse "+m.getAdresse());
+			System.out.println("ville "+m.getVille());
+			System.out.println("province "+m.getProvince());
+			System.out.println("code postal "+m.getCodePostal());
+			this.trierService(m);
+		}
+		
+	}
+	
+	
+	public void trierService(Membre m){
+		ArrayList<Presence> p =m.getPresence();
+		for(int i=0;i<p.size();i++){
+			
+		}
 	}
 
 	

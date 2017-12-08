@@ -1,6 +1,4 @@
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -168,7 +166,15 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		
+		Presence p=new Presence("07-12-2017 ", 100000001, 100000000, 1011101, "present");
+		Presence p1=new Presence("08-12-2017 ", 100000001, 100000000, 1011101, "present");
+		ArrayList<Presence> t= new ArrayList<Presence>();
+		t.add(p);
+		t.add(p1);
+		Sorting s=new Sorting();
+		s.quickSort(0, t.size());
+		System.out.println(s.array.get(0).getDateEtHeuresActueles());
+		System.out.println(s.array.get(1).getDateEtHeuresActueles());
 		
 		Main m =new Main();
 		Logiciel a =new Logiciel(new CentreDeDonnes());

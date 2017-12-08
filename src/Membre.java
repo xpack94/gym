@@ -1,6 +1,8 @@
+import java.util.ArrayList;
+
 
 public class Membre {
-
+	
 	public int getAge() {
 		return age;
 	}
@@ -59,8 +61,8 @@ public class Membre {
 	private String ville;
 	private String codePostal;
 	private String province;
-	 
-	
+	private ArrayList<Integer> codeDesSeancesInscirit;
+	private ArrayList<Presence> presence;
 	
 	public  Membre(long numeroUnique,String nom,String email,String adresse,String ville,String codePostal,String province){
 		this.numeroUnique=numeroUnique;
@@ -70,6 +72,8 @@ public class Membre {
 		this.ville=ville;
 		this.codePostal=codePostal;
 		this.province=province;
+		this.codeDesSeancesInscirit=new ArrayList<Integer>();
+		this.presence=new ArrayList<Presence>();
 	}
 
 
@@ -106,7 +110,40 @@ public class Membre {
 	}
 
 
+	public ArrayList<Integer> getCodeDesSeancesInscirit() {
+		return codeDesSeancesInscirit;
+	}
 
+
+	public void setCodeDesSeancesInscirit(ArrayList<Integer> codeDesSeancesInscirit) {
+		this.codeDesSeancesInscirit = codeDesSeancesInscirit;
+	}
+
+	public void setCodeDesSeancesInscirit(int code) {
+		this.codeDesSeancesInscirit.add(code);
+	}
+
+
+	
+
+
+	public ArrayList<Presence> getPresence() {
+		return presence;
+	}
+
+
+	public void setPresence(ArrayList<Presence> presence) {
+		this.presence = presence;
+	}
+	
+	public void setPresence(Presence p) {
+	
+		this.presence.add(p);
+	}
+	public void setPresence(Presence p,int index) {
+		
+		this.presence.add(index,p);
+	}
 
 
 	
