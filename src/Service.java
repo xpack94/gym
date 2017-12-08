@@ -2,7 +2,42 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-
+/**
+ * creation d'un service avec toutes les information necessaires
+ * @autor Abdesselam
+ * 
+ * @param seances 
+ * 
+ * @param seancesList
+ * un hashMap avec toutes les seances du service et avec le code de la seance comme clé
+ * @param codeDesSeances 
+ * un arrayList contenant touts les codes des seances 
+ * @param dateEtHeuresctuelles
+ * la date et heures dans lesquels le sevice a été crée
+ * @param dateDebutDuService
+ * la date du debut de se service 
+ * @param dateFinDuService
+ * la date fin de se service 
+ * @param heureDuService
+ * l'heure pour le quel le service va etre donné
+ * @param reccurenceHebdo
+ * les journées ou le service sera donné a la meme heure
+ * @param nom 
+ * le nom du service 
+ * @param capaciteMaximale
+ * la capacité maximale que peut contenir se service
+ * @param numeroDuProfessionnel
+ * le numero du professionnel qui donne le service 
+ * @param codeDuService 
+ * le code du service a 3 chiffres 
+ * @param commentaire
+ * un commentaire sur le service 
+ * 
+ * @return un nouveau objet de type Service 
+ *	
+ *
+ *les methodes de cette classe sont tous des getters et des setters parceque les paramaitres sont privés
+ */
 
 public class Service {
   private MembreInscrit [] seances;

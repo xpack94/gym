@@ -8,9 +8,29 @@ import java.util.Calendar;
 import java.util.Scanner;
 
 
+/**
+ * @author Abdesselam
+ * @version 3
+ *
+ *
+ *
+ */
 public class GestionDeMembre {
+	
 	long id;
 	public long creerUnMembre(String typeDuMembre,CentreDeDonnes ctrDonne){
+		/**
+		 * une methode qui retourne un numero unique representant le membre crée
+		 * @param typeDuMembre de type String 
+		 * le type du membre peut etre soit un membre regulier ou un professionnel
+		 * @param ctrDonne de type CentreDeDonnes
+		 * qui correspond a la base de donné contenant toutes les information nececaire
+		 * 
+		 * @return le numero unique de type long
+		 * 
+		 * 
+		 * 
+		 */
 		Scanner sc=new Scanner(System.in);
 			System.out.println("entrer votre nom (25 lettres):");
 		    String nom=sc.next();
@@ -85,6 +105,15 @@ public class GestionDeMembre {
 	}
 	//calcule le nombre de lettre dans une chaine de caractaires
 	public boolean conttienLettres(String word,int nbrLettres){
+		/**
+		 * retourne un boolean qui est vrai si la string recue en paramaitre contient le meme nombre 
+		 * de lettres que le int recu en paramaitres
+		 * 
+		 * @param word de type String 
+		 * @param nbrLetters de type int
+		 * @return un boolean
+		 * 
+		 */
 		int comp=0;
 		for(int i=0;i<word.length();i++){
 			if(Character.isLetter(word.charAt(i))){
@@ -100,6 +129,13 @@ public class GestionDeMembre {
 	
 	public void supprimerMembre(long numeroUnique,CentreDeDonnes ctrDonne){
 		
+		/**
+		 * methode qui permet de supprimer un membre deja existant 
+		 * @param numeroUnique du membre a supprimer qui est de type long
+		 * @param ctrDonne qui represente la base de donné ou le membre est stocké 
+		 * @return rien 
+		 * 
+		 */
 		ctrDonne.membres.remove(numeroUnique);
 		Professionnel p=ctrDonne.professionnels.get(numeroUnique);
 		//supprimer les service donné par le professionnel
@@ -117,6 +153,13 @@ public class GestionDeMembre {
 	}
 	
 	public void mettreAjourMembre(long num,CentreDeDonnes ctrDonne){
+			/**
+			 * mets a jours les informations du membre 
+			 * @param num qui correspond au id du membre pour lequel on va faire la mise a jour des informations
+			 * @param ctrDonne qui correspond a la base de donné ou le membre est stocké
+			 * @return rien
+			 */
+		
 		   Membre m=ctrDonne.membres.get(num);
 		    if(m==null){
 		    	System.out.println("le numero est invalide");
@@ -182,6 +225,14 @@ public class GestionDeMembre {
 	}
 	
 	public boolean verificationMembre(long numeroUnique,CentreDeDonnes ctrDonne){
+		/**
+		 * verifie si un membre donné est inscrit au Gym 
+		 * @param  numeroUnique de type long qui correspond a l'id du membre 
+		 * @param ctrDonne qui represente la base de donnéé
+		 * @return un boolean qui represente si le membre est inscrit ou non 
+		 */
+		
+		
 		Membre m=ctrDonne.membres.get(numeroUnique);
 		Membre p =ctrDonne.professionnels.get(numeroUnique);
 		if(m!=null || p!=null){
@@ -192,6 +243,13 @@ public class GestionDeMembre {
 	}
 	
 	public void listDesService(CentreDeDonnes ctrDonne,long numeroUnique){
+		
+		/**
+		 * donne la liste de tout les services dans lesquels le membre est inscrit 
+		 * @param ctrDonne qui represente la base de donné 
+		 * @param numeroUnique du membre pour lequel on veut chercher les seance 
+		 * @return rien
+		 */
 		
 		PrintWriter writer;
 		try {
