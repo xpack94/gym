@@ -15,6 +15,7 @@ public class MenuDeProfessionnel {
 		System.out.println("1:consulter les inscriptions au séances");
 		System.out.println("2:modification des informations");
 		System.out.println("3:confirmation de presence ");
+		System.out.println("4:avis de paiment");
 		Scanner sc=new Scanner(System.in);
 		this.choisirOption(m, Integer.parseInt(sc.next()));
 	}
@@ -27,6 +28,10 @@ public class MenuDeProfessionnel {
 			break;
 		case 3:
 			log.confirmationPresence(m.getNumeroUnique());
+			break;
+		case 4:
+			log.avisDePaiment(m.getNumeroUnique());
+			break;
 		}
 		
 		

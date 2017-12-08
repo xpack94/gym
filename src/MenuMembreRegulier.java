@@ -14,6 +14,7 @@ public class MenuMembreRegulier {
 		System.out.println("veuillez choisir une option");
 		System.out.println("1:s'inscrir a une séance ");
 		System.out.println("2:mettre a jours les informations");
+		System.out.println("3:consulter la listes des incriptions ");
 		Scanner sc=new Scanner(System.in);
 		int option= Integer.parseInt(sc.next());
 		this.choisirOption(m,option);
@@ -28,6 +29,10 @@ public class MenuMembreRegulier {
 		case 2:
 			log.mettreAjourMembre(m.getNumeroUnique());
 			break;
+		
+		case 3:
+			log.listDesService(m.getNumeroUnique());
+		
 		}
 		
 		try        

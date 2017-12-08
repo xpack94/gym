@@ -27,6 +27,8 @@ public class GestionDeService {
 				String dateFinService=sc.next();
 				System.out.println("entrer l'heure du service sous forme HH:MM");
 				String heureDuService=sc.next();
+				System.out.println("entrer le nom du service (20 caractaires)");
+				String nom=sc.next();
 				System.out.println("entrer la reccurence hebdomadaire du service");
 				sc.nextLine();
 				String reccurenceHebdo=sc.nextLine();
@@ -51,6 +53,10 @@ public class GestionDeService {
 					return 0;
 				}
 				
+				if(nom.length()>20){
+					System.out.println("le nom contient plus que 20 caractaires");
+					System.out.println("inscription echoué ");
+				}
 				
 				//faire la comparaison des dates entrées par le professionnel
 				DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -76,7 +82,7 @@ public class GestionDeService {
 				}
 				
 				String [] occurences=reccurenceHebdo.split(" ");
-				Service s =new Service(dateEtHeuresAct,dateDebutService,dateFinService,heureDuService,reccurenceHebdo,30,numeroUnique,serviceId,commentaire);
+				Service s =new Service(dateEtHeuresAct,dateDebutService,dateFinService,heureDuService,nom,reccurenceHebdo,30,numeroUnique,serviceId,commentaire);
 				ctrDonne.services.put( s.getCodeDuService(), s);
 				//le nombre de seance depend des occurences hebdomadaire
 				s.setNombreDeSeance(occurences.length);

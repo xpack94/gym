@@ -13,6 +13,7 @@ public class Service {
   private  String dateFinService;
   private  String heureDuService;
   private  String recurrenceHebdo;
+  private String nom;
   private int capaciteMaximale;
   private long numeroDuProfessionnel;
   private int codeDuService;
@@ -95,12 +96,13 @@ public void setIndex(int index) {
 
 
 
-public  Service(String dateEtHeuresActuelles,String dateDebutService,String dateFinService,String heureDuService,String recurrenceHebdo,
+public  Service(String dateEtHeuresActuelles,String dateDebutService,String dateFinService,String heureDuService,String nom,String recurrenceHebdo,
 		  int capaciteMaximale,long numeroDuProfessionnel,int codeDuService,String commentaire){
 	  this.dateEtHeuresActuelles=dateEtHeuresActuelles;
 	  this.dateDebutService=dateDebutService;
 	  this.dateFinService=dateFinService;
 	  this.heureDuService=heureDuService;
+	  this.nom=nom;
 	  this.recurrenceHebdo=recurrenceHebdo;
 	  this.capaciteMaximale=capaciteMaximale;
 	  this.numeroDuProfessionnel=numeroDuProfessionnel;
@@ -212,6 +214,12 @@ public void setCodeDesSeance( int code) {
 }
 public void setSeancesList(HashMap<Integer, Seance> seancesList) {
 	SeancesList = seancesList;
+}
+public String getNom() {
+	return nom;
+}
+public void setNom(String nom) {
+	this.nom = nom;
 }
 
 	

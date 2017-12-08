@@ -1,4 +1,10 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Scanner;
 
 
@@ -186,24 +192,54 @@ public class GestionDeMembre {
 	}
 	
 	public void listDesService(CentreDeDonnes ctrDonne,long numeroUnique){
-		Membre m=ctrDonne.membres.get(numeroUnique);
-		if(m!=null){
-			System.out.println("nom "+m.getNom());
-			System.out.println("numero unique "+m.getNumeroUnique());
-			System.out.println("adresse "+m.getAdresse());
-			System.out.println("ville "+m.getVille());
-			System.out.println("province "+m.getProvince());
-			System.out.println("code postal "+m.getCodePostal());
-			m.setPresence( new Sorting().sort(m.getPresence()));
-			ArrayList<Presence> serviceFournit=m.getPresence();
-			for(int i=0;i<serviceFournit.size();i++){
-				System.out.println("date du service "+serviceFournit.get(i).getDateEtHeuresActueles());
-				Professionnel pro=ctrDonne.professionnels.get(serviceFournit.get(i));
-				if(pro!=null){
-					System.out.println("Nom du professionnel "+pro.getNom());
+		
+		PrintWriter writer;
+		try {
+			
+			
+			Membre m=ctrDonne.membres.get(numeroUnique);
+			String dateEtHeuresAct= new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
+			writer = new PrintWriter(""+m.getNom()+""+dateEtHeuresAct, "UTF-8");
+			if(m!=null){
+				writer.println("nom "+m.getNom());
+				writer.println("numero unique "+m.getNumeroUnique());
+				writer.println("adresse "+m.getAdresse());
+				writer.println("ville "+m.getVille());
+				writer.println("province "+m.getProvince());
+				writer.println("code postal "+m.getCodePostal());
+				m.setPresence( new Sorting().sort(m.getPresence()));
+				ArrayList<Presence> serviceFournit=m.getPresence();
+				for(int i=0;i<serviceFournit.size();i++){
+					writer.println("date du service "+serviceFournit.get(i).getDateEtHeuresActueles());
+					Professionnel pro=ctrDonne.professionnels.get(serviceFournit.get(i).getNumeroDuProfessionnel());
+					if(pro!=null){
+						writer.println("Nom du professionnel "+pro.getNom());
+					}
+						//trouver le nom du service 
+					int codeDuService=Integer.parseInt(String.valueOf(serviceFournit.get(i).getCodeDeLaSeance()).substring(0, 3));
+					Service s=ctrDonne.services.get(codeDuService);
+					if(s!=null){
+					writer.println("nom du service "+s.getNom());
+					}
+						
+					
 				}
 			}
+			writer.println("---------------------------------");
+			writer.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+			
+			
+		
+		
+	
 		
 	}
 	

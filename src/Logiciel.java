@@ -237,6 +237,10 @@ public class Logiciel extends TimerTask {
 		}
 		
 		
+		public void avisDePaiment(long numeroUnique){
+			new GestionDeProfessionnel().avisDePaiment(ctrDonne, numeroUnique);
+		}
+		
 		
 		//cette methode check les membre qui se sont inscrit au service cette semaine la 
 		//et renvoie le frais totale due au professionnel

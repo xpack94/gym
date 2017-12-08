@@ -54,6 +54,9 @@ public class Main {
 				System.out.println("veuillez entrer votre numero");
 				id=sc.nextLong();
 			}
+			if(id==0){
+				break;
+			}
 			int codeS=a.DonnerService(id);
 			if(codeS==0){
 				System.out.println("le service n'a pas eté crée");
@@ -63,44 +66,24 @@ public class Main {
 			
 			
 			break;
+
+
 		case 4:
-			System.out.println("entrer le code du service que vous voulez consulter");
-			int code=sc.nextInt();
-			a.consulterSeance(code);
-			
-			
-			break;
-		case 5:
-			System.out.println("veuillez entrer le code du professionnel ");
-			int codeSeance=sc.nextInt();
-			a.confirmationPresence(codeSeance);
-			
-			break;
-		case 6:
 			System.out.println("entrer votre numero ");
 			long numero=sc.nextLong();
 			a.supprimerMembre(numero);
 			System.out.println("le membre est supprimé");
 			break;
-		case 7:
-			System.out.println("entrer votre numero");
-			long newNum=sc.nextLong();
-			a.mettreAjourMembre(newNum);
-			break;
-		case 8:
+		case 5:
 			System.out.println("entrer le code du service");
 			a.removeService(sc.nextInt());
 			break;
-		case 9:
-			System.out.println("entrer le code du service");
-			a.metterAjourService(sc.nextInt());
-			break;
-		case 10:
+		case 6:
 			System.out.println("le fichier tef a eté crée dans votre espace de travail");
 			a.procedureComptable();
 			break;
 
-		case 11:
+		case 7:
 			System.out.println("entrer votre email");
 			String email =sc.next();
 			Membre member=a.verifierEmail(email);
@@ -111,7 +94,7 @@ public class Main {
 				System.out.println("l'email est invalide");
 			}
 			break;
-		case 12:
+		case 8:
 			System.out.println("entrer votre email");
 			String email1=sc.next();
 			Professionnel mem=a.verifierEmailDeProfessionnel(email1);
@@ -122,7 +105,7 @@ public class Main {
 				System.out.println("l'email est invalide");
 			}
 			break;
-		case 13:
+		case 9:
 			System.out.println("entrer votre id");
 	
 			a.listDesService(sc.nextLong());
@@ -156,17 +139,12 @@ public class Main {
 		System.out.println("1:inscripton");
 		System.out.println("2:s'inscrire a une séance");
 		System.out.println("3:donner service");
-		System.out.println("4:consulter inscription");
-		System.out.println("5:confirmer presence");
-		System.out.println("6:supprimer membre");
-		System.out.println("7:mettre a jour membre");
-		System.out.println("8:supprimer service ");
-		System.out.println("9:mettre a jour service");
-		System.out.println("10:procedure comptable");
-		System.out.println("11:menu membre");
-		System.out.println("12:menu professionnel");
-		System.out.println("13:liste des service fournit");
-		System.out.println("14:quitter");
+		System.out.println("4:supprimer membre");
+		System.out.println("5:supprimer service ");
+		System.out.println("6:procedure comptable");
+		System.out.println("7:menu membre");
+		System.out.println("8:menu professionnel");
+		System.out.println("9:quitter");
 		Scanner sc =new Scanner(System.in);
 		int choix=sc.nextInt();
 		m.choixPris(m,a, choix);
