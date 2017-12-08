@@ -1,3 +1,6 @@
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -68,10 +71,9 @@ public class Main {
 			
 			break;
 		case 5:
-			System.out.println("veuillez entrer le code ");
+			System.out.println("veuillez entrer le code du professionnel ");
 			int codeSeance=sc.nextInt();
-			System.out.println("veuillez entrer votre numero");
-			long numeroUnique=sc.nextLong();
+			a.confirmationPresence(codeSeance);
 			
 			break;
 		case 6:
@@ -120,8 +122,13 @@ public class Main {
 				System.out.println("l'email est invalide");
 			}
 			break;
-		
 		case 13:
+			System.out.println("entrer votre id");
+	
+			a.listDesService(sc.nextLong());
+			break;
+			
+		case 14:
 			System.exit(0);
 			
 		}
@@ -158,23 +165,16 @@ public class Main {
 		System.out.println("10:procedure comptable");
 		System.out.println("11:menu membre");
 		System.out.println("12:menu professionnel");
-		System.out.println("13:quitter");
+		System.out.println("13:liste des service fournit");
+		System.out.println("14:quitter");
 		Scanner sc =new Scanner(System.in);
 		int choix=sc.nextInt();
 		m.choixPris(m,a, choix);
 	}
 	
 	public static void main(String[] args) {
+	
 		
-		Presence p=new Presence("07-12-2017 ", 100000001, 100000000, 1011101, "present");
-		Presence p1=new Presence("08-12-2017 ", 100000001, 100000000, 1011101, "present");
-		ArrayList<Presence> t= new ArrayList<Presence>();
-		t.add(p);
-		t.add(p1);
-		Sorting s=new Sorting();
-		s.quickSort(0, t.size());
-		System.out.println(s.array.get(0).getDateEtHeuresActueles());
-		System.out.println(s.array.get(1).getDateEtHeuresActueles());
 		
 		Main m =new Main();
 		Logiciel a =new Logiciel(new CentreDeDonnes());

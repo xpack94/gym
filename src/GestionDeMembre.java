@@ -194,19 +194,22 @@ public class GestionDeMembre {
 			System.out.println("ville "+m.getVille());
 			System.out.println("province "+m.getProvince());
 			System.out.println("code postal "+m.getCodePostal());
-			this.trierService(m);
+			m.setPresence( new Sorting().sort(m.getPresence()));
+			ArrayList<Presence> serviceFournit=m.getPresence();
+			for(int i=0;i<serviceFournit.size();i++){
+				System.out.println("date du service "+serviceFournit.get(i).getDateEtHeuresActueles());
+				Professionnel pro=ctrDonne.professionnels.get(serviceFournit.get(i));
+				if(pro!=null){
+					System.out.println("Nom du professionnel "+pro.getNom());
+				}
+			}
 		}
 		
 	}
 	
 	
-	public void trierService(Membre m){
-		ArrayList<Presence> p =m.getPresence();
-		for(int i=0;i<p.size();i++){
-			
-		}
-	}
+}
 
 	
 	
-}
+

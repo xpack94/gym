@@ -231,6 +231,13 @@ public class Logiciel extends TimerTask {
 				e.printStackTrace();
 			}
 		}
+		
+		public void listDesService(long numeroUnique){
+			new GestionDeMembre().listDesService(ctrDonne, numeroUnique);
+		}
+		
+		
+		
 		//cette methode check les membre qui se sont inscrit au service cette semaine la 
 		//et renvoie le frais totale due au professionnel
 		private Double verifierMembrePourCetteSemaine(Service s,String date){
