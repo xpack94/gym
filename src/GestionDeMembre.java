@@ -248,6 +248,8 @@ public class GestionDeMembre {
 		 * donne la liste de tout les services dans lesquels le membre est inscrit 
 		 * @param ctrDonne qui represente la base de donné 
 		 * @param numeroUnique du membre pour lequel on veut chercher les seance 
+		 * @exception FileNotFoundException
+		 * @exception UnsupportedEncodingException
 		 * @return rien
 		 */
 		

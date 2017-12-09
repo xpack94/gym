@@ -6,10 +6,29 @@ import java.util.Calendar;
 import java.util.Scanner;
 
 
+/**
+ * 
+ * @author abdesselam 
+ * classe qui contient toutes le fonctionalité qui son propre au service 
+ * 
+ * @verison 3
+ * 
+ *
+ */
+
 public class GestionDeService {
 
 	//la methode qui permet a un professionnel de donner un service 
 			protected int DonnerService(long numeroUnique , CentreDeDonnes ctrDonne){
+				/**
+				 * methode qui permet a un professionnel donné de donner un service , en entrant toutes les informations 
+				 * relative  a se service 
+				 * @param numeroUnique du professionnel 
+				 * @param ctrDonne qui est la base de donné ou le service crée va etre stocké 
+				 * @Exception ParseException
+				 * @return entier representant le code du service crée
+				 */
+				
 				if(!new GestionDeMembre().verificationMembre(numeroUnique, ctrDonne)){
 					//le professionnel n'est pas inscrit 
 					//long number=this.ajouterMembre("professionnel");
@@ -101,6 +120,15 @@ public class GestionDeService {
 			
 			
 			private void genererCodeSeances(String [] occurences ,Service s ){
+				/**
+				 * methode qui genere un code de seance a 7 chiffre tel que les 3 premier chiffre 
+				 * represente le code du service , les 2 prochains chiffres represente le numero de la seance 
+				 * et les 3 derniers chiffre represente les deux derniers chiffres du numero du professionnel
+				 * @param occurences un tableau contenant les jours ou le service sera donné a la meme heure 
+				 * @param s qui represente le service en question 
+				 * @return void
+				 */
+				
 				for(int i=0;i<occurences.length;i++){
 					//generer le code de la seance de occurences[i]
 					String numDuProfessionnel=String.valueOf(s.getNumeroDuProfessionnel());
@@ -134,6 +162,15 @@ public class GestionDeService {
 			
 			
 			public void metterAjourService(int n,CentreDeDonnes ctrDonne){
+				/**
+				 * methode qui mets a jour les information d'un service donné 
+				 * @param n representant le numero du service 
+				 * @param ctrDonne qui represente la base de donné
+				 * @Exception ParseException
+				 *  
+				 * @return void 
+				 */
+				
 				Service s=ctrDonne.services.get(n);
 				if(s==null){
 					System.out.println("le code du service est invalide");
@@ -209,6 +246,13 @@ public class GestionDeService {
 			
 			
 			public long sinscrirAService(long numeroUnique,CentreDeDonnes ctrDonne){
+				/**
+				 * methode permetant a un membre de s'inscrir a une seance choisit dans le repertoire des services
+				 * @param numeroUnique du membre qui veut s'inscrir a la seance 
+				 * @param ctrDonne qui represente la base de donné ou tout les services sont stocké 
+				 * @return long qui represente le numero a 7 chiffre de la seance 
+				 */
+				
 				if(new GestionDeMembre(). verificationMembre(numeroUnique,ctrDonne)){
 					
 				
@@ -277,6 +321,13 @@ public class GestionDeService {
 			
 			//afficher tous les service disponible pour aujourd'hui 
 			private int afficherToutLesServices(CentreDeDonnes ctrDonne){
+				/**
+				 * methode qui permet d'afficher tout les service qui sont donné aujourdh'ui 
+				 * @param ctrDonne qui represente la base de donné qui contient tout les services 
+				 * @Exception ParseException
+				 * @return int representant le nombre de service trouvé 
+				 */
+				
 				int g=101;
 				int nombreDeServiceDispo=0;
 				//obtenir le jour d'aujourdh'ui 
@@ -309,6 +360,14 @@ public class GestionDeService {
 			
 			
 			public  int compareDatesByCompareTo(DateFormat df, java.util.Date oldDate, java.util.Date newDate) {
+				/**
+				 * methose qui permet de faire la comparaison de deux dates 
+				 * @param df de type DateFormat 
+				 * @param oldDate qui represente la 1ere date a comparér 
+				 * @param newDate qui represente la deuxiemme date a comparér 
+				 * @return int qui est 1 si oldDate > newDate , 0 si il sont egaux et -1 si newDate >oldDate
+				 * 
+				 */
 		        
 		        if (oldDate.compareTo(newDate) == 0) {  
 		            return 0;
@@ -324,6 +383,15 @@ public class GestionDeService {
 			
 			//verifie si un service se donne a une journée donnée
 			private  int seDonneAujourdhui(Service s,String jour){
+				/**
+				 * verifie si un service est donné aujourdh'ui 
+				 * @param s qui represente le service en question 
+				 * @param jour represente le jour avec lequel on compare 
+				 * @return un entier qui le code de la seance ou 0 par defaut si la seance ne se donne pas au jour donné
+				 * 
+				 * 
+				 */
+				
 				ArrayList<Integer> seanceCodes=s.getCodeDesSeance();
 				for(int i =0; i<seanceCodes.size();i++){
 					Seance seance=s.getSeancesList().get(seanceCodes.get(i));
@@ -340,6 +408,12 @@ public class GestionDeService {
 			//methode qui permet au professionnel de verifier et confirmer la presence d'un membre a la seance 
 			
 			public void confirmationPresence(CentreDeDonnes ctrDonne,long num){
+				/**
+				 * permet au professionnel de verifier et comfirmer la presence d'un membre 
+				 * @param ctrDonne qui represente la base de donné 
+				 * @param num qui represente le numero du membre a verifier 
+				 * @return void
+				 */
 				
 				int codeDeSeance=this.chercherCodeDeSeance(num, ctrDonne);
 				if(codeDeSeance!=0){
@@ -373,6 +447,13 @@ public class GestionDeService {
 			}
 			
 			private int chercherCodeDeSeance(long numeroUnique,CentreDeDonnes  ctr){
+				/**
+				 * permet de chercher le code d'une seance donné par un professionnel
+				 * @param numeroUnique representant le code du professionnel pour lequel on cherche le code de la seance
+				 * @param ctr qui represente le centre de donné
+				 * @return int qui reprente le code de la seance trouvé 
+				 */
+				
 			Professionnel p=ctr.professionnels.get(numeroUnique);
 			//chercher dans tout les services donnés 
 			ArrayList<Integer> codes=p.getCodeDesServiceDonnés();
@@ -396,6 +477,11 @@ public class GestionDeService {
 			
 
 			private String getCurrentDay(){
+				/**
+				 * permet d'avoir le jour d'aujourdui 
+				 * @return String correspondant au jour
+				 */
+				
 				Calendar today = Calendar.getInstance();
 				int day =today.get(Calendar.DAY_OF_WEEK);
 				switch (day) {
@@ -419,6 +505,12 @@ public class GestionDeService {
 				return "defaut";
 			}
 			private boolean verifierSiDansService(Seance  s,long num){
+				/**
+				 * methode qui verifie si un membre existe dans une seance 
+				 * @param s qui represente la seance 
+				 * @param num correspondant au numero du membre 
+				 * @retuen boolean
+				 */
 				for(int i=0;i<s.getIndex();i++){
 					if(s.getMembreInscrit()[i].getNumero_du_membre()==num){
 						return true;
@@ -429,6 +521,11 @@ public class GestionDeService {
 			
 		   //methode qui verifie si l'heure du service est valide
 			private static boolean isValidHourFormat(String value){
+				/**
+				 * permet de verifier si un horraire est dans la bonne forme 
+				 * @param value qui represente l'horraire pour lequel on fait la verification
+				 * @return boolean
+				 */
 				if(value.matches("([0-9]{2}):([0-9]{2})")){
 					return true;
 				}
@@ -438,6 +535,11 @@ public class GestionDeService {
 			
 			//methode qui verifie si la date entrée par l'utilisateur correspond au format voulu
 			private static boolean isValidFormat( String value) {
+				/**methode qui verifie si la date entrée par l'utilisateur correspond au format voulu
+				 * @param value representant la date qu'on verifier 
+				 * @return boolean
+				 * 
+				 */
 				 boolean checkFormat;
 
 				 if (value.matches("([0-9]{2})-([0-9]{2})-([0-9]{4})")){

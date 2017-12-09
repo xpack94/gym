@@ -1,6 +1,24 @@
 
+/**
+ * 
+ * @author abdesselam
+ * 
+ * definit le type Presence qui est utilisé lors de la presence d'un membre a une seance 
+ * @version 1 
+ * @param DateEtHeuresActueles qui est la date et l'heure a lesquels le membre a assister a la seance
+ * @param numeroDuProfessionnel qui represente le numero du professionnel qui a donné la seance
+ * @param numeroDuMembre qui represente le numero du membre qui a assisté 
+ * @param codeDeLaSeance qui represente la seance en question 
+ * @param cmmentaire un commentaire sur la presence
+ * 
+ *
+ */
+
+
 public class Presence {
 
+	
+	
 	String DateEtHeuresActueles;
 	long numeroDuProfessionnel;
 	long numeroDuMembre;

@@ -1,6 +1,12 @@
 
 public class MembreRegulier extends Membre{
 
+	/**
+	 * @author abdesselam
+	 * definit le membre regulier qui lui meme herite de membre avec un attribut en plus qui est etat 
+	 * @version 2
+	 */
+	
 	private String etat;
 	
 	public MembreRegulier(long numeroUnique, String nom,

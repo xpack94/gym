@@ -1,5 +1,14 @@
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author abdesselam
+ * classe qui fait la definition du type Membre  avec toutes les informations necessaires 
+ * @version 3
+ * 
+ *
+ */
+
 
 public class Membre {
 	

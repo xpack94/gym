@@ -5,7 +5,22 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 
-
+/**
+ * 
+ * @author Abdesselam
+ * represente la base de donneé du Gym ou toutes les informations des membre , professionnel, service sont stocké 
+ * @param membres de type hashmap qui conttient tout les membres qui sont inscrit dans le gym
+ * @param services un hashmap contenant tout les service donné par des professionnel avec tout les information necessaire
+ * @param professionnels un hashmap contenant tout les professionnel du Gym
+ * @param id qui represente un code unique a 9 chiffres ui va etre attribuér au membre 
+ * @param serviceId qui represente le code a 3 chiffres qui va etre attribuér a un service  
+ * 
+ * 
+ * 
+ * @version 3 
+ * 
+ *
+ */
 
 public class CentreDeDonnes {
    
@@ -55,8 +70,5 @@ public class CentreDeDonnes {
 		this.serviceId = l;
 	}
 
-	public static void main(String [] Args){
-		//new CentreDeDonnes().creeMembre();
-		
-	}
+	
 }

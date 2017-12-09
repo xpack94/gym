@@ -1,5 +1,16 @@
 import java.util.ArrayList;
-
+/**
+ * 
+ * @author abdesselam
+ * classe qui decrit un professionne avec toutes ses proprieté , herite de la classe @see java.GYM.Membre avec des 
+ * attribut en plus 
+ * @param codeDesServiceDonnés contenant tout les numeros a 3 chiffres de tout les service donné 
+ *par le professionnel 
+ *@param nombreDeServiceDonné qui represente le nombre de service donné par une professionnel
+ *@version 1 
+ *
+ *
+ */
 
 public class Professionnel extends Membre{
 

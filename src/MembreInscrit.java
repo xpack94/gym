@@ -2,7 +2,14 @@ import java.sql.Date;
 
 
 public class MembreInscrit {
-
+	
+	/**
+	 * @author abdesselam
+	 * classe qui definie l'inscription d'un membre a une seance et contient toutes les informations de cette inscription 
+	 * @version 3
+	 *  
+	 */
+	
 	private String Date_et_heure_actuelles;
 	private String Date_à_laquelle_du_service_qui_sera_fourni;
 	private long numéro_du_professionnel;

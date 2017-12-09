@@ -8,9 +8,33 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 
+/**
+ * 
+ * @author abdesselam
+ * classe qui contient une methode essentiel pour le professionnel qui est l'avisDePaiment 
+ * 
+ * 
+ * @version3
+ *
+ */
+
 public class GestionDeProfessionnel {
 
+	
 	public void avisDePaiment(CentreDeDonnes ctrDonne,long numeroUnique){
+		/**
+		 * methode qui permet de creer un fichier contenant toutes les informations du professionnel 
+		 * ainsi que les informations de toutes les seance et service qui a donné avec le montant qui va lui etre 
+		 * attribué 
+		 * @param ctrDonne qui represente la base de donné ou toutes les information sont stocké 
+		 * @param numeroUnique du professionnel pour lequel l'avis de paiment et créé
+		 * @Exception FileNotFoundException
+		 * @Exception UnsupportedEncodingException
+		 * @Exception ParseException
+		 * @return void
+		 * 
+		 */
+		
 		PrintWriter writer;
 		
 		try {
